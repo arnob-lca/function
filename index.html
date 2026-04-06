@@ -3,9 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0f0f1a">
-<meta name="description" content="JavaScript ফাংশন শিখুন বাংলায়">
-<link rel="manifest" href="#" />
+<meta name="theme-color" content="#7c6dfa">
+<meta name="description" content="JavaScript ফাংশন বাংলায় শিখুন — লাইভ ডেমো, কুইজ ও সাউন্ড ইফেক্ট সহ">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JS ফাংশন">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
 <title>JS ফাংশন শিখি 🚀</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -19,12 +25,12 @@
     --text: #e8e8ff;
     --text2: #a0a0cc;
     --text3: #6060aa;
-    --accent1: #7c6dfa; /* violet */
-    --accent2: #fa6d8e; /* pink */
-    --accent3: #6dfad5; /* teal */
-    --accent4: #fad76d; /* yellow */
-    --accent5: #6dbaff; /* blue */
-    --accent6: #fa9a6d; /* orange */
+    --accent1: #7c6dfa;
+    --accent2: #fa6d8e;
+    --accent3: #6dfad5;
+    --accent4: #fad76d;
+    --accent5: #6dbaff;
+    --accent6: #fa9a6d;
     --radius: 16px;
     --radius-sm: 8px;
     --shadow: 0 8px 32px rgba(0,0,0,0.4);
@@ -35,15 +41,9 @@
     --transition: 0.28s cubic-bezier(.4,0,.2,1);
   }
   [data-theme="light"] {
-    --bg: #f0f0ff;
-    --bg2: #e8e8f8;
-    --bg3: #dcdcf5;
-    --surface: #ffffff;
-    --surface2: #f5f5ff;
-    --border: #d0d0ee;
-    --text: #1a1a3a;
-    --text2: #4040aa;
-    --text3: #8080bb;
+    --bg: #f0f0ff; --bg2: #e8e8f8; --bg3: #dcdcf5;
+    --surface: #ffffff; --surface2: #f5f5ff; --border: #d0d0ee;
+    --text: #1a1a3a; --text2: #4040aa; --text3: #8080bb;
     --shadow: 0 8px 32px rgba(100,100,200,0.15);
     --shadow-glow: 0 0 24px rgba(124,109,250,0.15);
   }
@@ -57,564 +57,212 @@
     overflow-x: hidden;
     transition: background var(--transition), color var(--transition);
   }
-
-  /* ── NOISE OVERLAY ── */
   body::before {
-    content:'';
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    opacity:.03;
+    content:''; position:fixed; inset:0; pointer-events:none; opacity:.03;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 256px;
-    z-index:9999;
+    background-size: 256px; z-index:9999;
   }
 
   /* ── SIDEBAR ── */
   #sidebar {
-    position: fixed;
-    top: 0; left: 0;
-    width: var(--sidebar-w);
-    height: 100vh;
-    background: var(--bg2);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
-    transition: transform var(--transition), background var(--transition);
-    overflow: hidden;
+    position:fixed; top:0; left:0; width:var(--sidebar-w); height:100vh;
+    background:var(--bg2); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; z-index:100;
+    transition:transform var(--transition), background var(--transition); overflow:hidden;
   }
-  .sidebar-header {
-    padding: 24px 20px 16px;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
+  .sidebar-header { padding:24px 20px 16px; border-bottom:1px solid var(--border); flex-shrink:0; }
   .sidebar-logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--accent1), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.2;
+    font-size:1.5rem; font-weight:800;
+    background:linear-gradient(135deg,var(--accent1),var(--accent2));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1.2;
   }
-  .sidebar-sub { font-size: .75rem; color: var(--text3); margin-top: 2px; }
-  .sidebar-search {
-    margin: 12px 16px 8px;
-    flex-shrink: 0;
-  }
+  .sidebar-sub { font-size:.75rem; color:var(--text3); margin-top:2px; }
+  .sidebar-search { margin:12px 16px 8px; flex-shrink:0; }
   .sidebar-search input {
-    width: 100%;
-    padding: 8px 14px;
-    border-radius: 99px;
-    border: 1px solid var(--border);
-    background: var(--bg3);
-    color: var(--text);
-    font-family: var(--font-main);
-    font-size: .85rem;
-    outline: none;
-    transition: border-color var(--transition);
+    width:100%; padding:8px 14px; border-radius:99px; border:1px solid var(--border);
+    background:var(--bg3); color:var(--text); font-family:var(--font-main); font-size:.85rem; outline:none;
+    transition:border-color var(--transition);
   }
-  .sidebar-search input:focus { border-color: var(--accent1); }
-  .sidebar-search input::placeholder { color: var(--text3); }
-  .sidebar-nav {
-    flex: 1;
-    overflow-y: auto;
-    padding: 8px 0 24px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
-  }
-  .nav-category {
-    padding: 10px 20px 4px;
-    font-size: .65rem;
-    font-weight: 700;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--text3);
-  }
+  .sidebar-search input:focus { border-color:var(--accent1); }
+  .sidebar-search input::placeholder { color:var(--text3); }
+  .sidebar-nav { flex:1; overflow-y:auto; padding:8px 0 24px; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
+  .nav-category { padding:10px 20px 4px; font-size:.65rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text3); }
   .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 0 12px 12px 0;
-    margin-right: 12px;
-    font-size: .9rem;
-    font-weight: 500;
-    color: var(--text2);
-    transition: all var(--transition);
-    position: relative;
+    display:flex; align-items:center; gap:10px; padding:10px 20px;
+    cursor:pointer; border-radius:0 12px 12px 0; margin-right:12px;
+    font-size:.9rem; font-weight:500; color:var(--text2); transition:all var(--transition); position:relative;
   }
-  .nav-item:hover { background: var(--surface); color: var(--text); }
-  .nav-item.active {
-    background: linear-gradient(135deg, rgba(124,109,250,.18), rgba(250,109,142,.1));
-    color: var(--accent1);
-    font-weight: 700;
+  .nav-item:hover { background:var(--surface); color:var(--text); }
+  .nav-item.active { background:linear-gradient(135deg,rgba(124,109,250,.18),rgba(250,109,142,.1)); color:var(--accent1); font-weight:700; }
+  .nav-item.active::before { content:''; position:absolute; left:0; top:4px; bottom:4px; width:3px; border-radius:0 3px 3px 0; background:linear-gradient(to bottom,var(--accent1),var(--accent2)); }
+  .nav-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+  /* ── INSTALL BANNER ── */
+  #install-banner {
+    display:none; position:fixed; bottom:0; left:0; right:0;
+    background:var(--surface); border-top:1px solid var(--border);
+    padding:14px 20px; z-index:200; align-items:center; gap:14px;
+    box-shadow:0 -4px 24px rgba(0,0,0,0.3);
   }
-  .nav-item.active::before {
-    content:'';
-    position:absolute;
-    left:0; top:4px; bottom:4px;
-    width:3px;
-    border-radius:0 3px 3px 0;
-    background: linear-gradient(to bottom, var(--accent1), var(--accent2));
-  }
-  .nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .nav-badge {
-    margin-left: auto;
-    font-size: .65rem;
-    padding: 1px 7px;
-    border-radius: 99px;
-    background: var(--surface2);
-    color: var(--text3);
-  }
+  #install-banner.show { display:flex; }
+  .install-txt { flex:1; font-size:.88rem; color:var(--text2); }
+  .install-txt strong { color:var(--text); }
+  #btn-install { padding:9px 20px; border-radius:99px; border:none; background:linear-gradient(135deg,var(--accent1),var(--accent2)); color:#fff; font-family:var(--font-main); font-size:.85rem; font-weight:700; cursor:pointer; }
+  #btn-install-dismiss { padding:9px 14px; border-radius:99px; border:1px solid var(--border); background:transparent; color:var(--text3); font-family:var(--font-main); font-size:.82rem; cursor:pointer; }
 
   /* ── TOPBAR ── */
   #topbar {
-    position: fixed;
-    top: 0;
-    left: var(--sidebar-w);
-    right: 0;
-    height: 60px;
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    padding: 0 28px;
-    gap: 16px;
-    z-index: 90;
-    transition: background var(--transition), left var(--transition);
+    position:fixed; top:0; left:var(--sidebar-w); right:0; height:60px;
+    background:var(--bg2); border-bottom:1px solid var(--border);
+    display:flex; align-items:center; padding:0 28px; gap:12px; z-index:90;
+    transition:background var(--transition), left var(--transition);
   }
-  .topbar-title { font-size: 1rem; font-weight: 700; color: var(--text); flex:1; }
-  .topbar-chip {
-    font-size: .72rem;
-    padding: 3px 10px;
-    border-radius: 99px;
-    font-weight: 600;
+  .topbar-title { font-size:1rem; font-weight:700; color:var(--text); flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #btn-theme, #btn-sound, #btn-menu {
+    width:36px; height:36px; border-radius:50%; border:1px solid var(--border);
+    background:var(--surface); color:var(--text); cursor:pointer; font-size:1rem;
+    display:flex; align-items:center; justify-content:center; transition:all var(--transition); flex-shrink:0;
   }
-  #btn-theme {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex; align-items: center; justify-content: center;
-    transition: all var(--transition);
+  #btn-theme:hover { background:var(--surface2); transform:rotate(20deg); }
+  #btn-menu { display:none; }
+  #offline-chip {
+    display:none; font-size:.68rem; padding:3px 10px; border-radius:99px;
+    background:rgba(250,109,142,.15); color:var(--accent2); border:1px solid rgba(250,109,142,.3); font-weight:700;
   }
-  #btn-theme:hover { background: var(--surface2); transform: rotate(20deg); }
-  #btn-menu {
-    display: none;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 1.1rem;
-    align-items: center; justify-content: center;
-    transition: all var(--transition);
-  }
-  #btn-sound {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex; align-items: center; justify-content: center;
-    transition: all var(--transition);
-  }
+  #offline-chip.show { display:block; }
 
-  /* ── MAIN CONTENT ── */
-  #main {
-    margin-left: var(--sidebar-w);
-    padding-top: 60px;
-    min-height: 100vh;
-    transition: margin-left var(--transition);
-  }
-  .content-area {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 36px 28px 80px;
-  }
+  /* ── MAIN ── */
+  #main { margin-left:var(--sidebar-w); padding-top:60px; min-height:100vh; transition:margin-left var(--transition); }
+  .content-area { max-width:860px; margin:0 auto; padding:36px 28px 120px; }
 
   /* ── HERO ── */
-  .hero {
-    text-align: center;
-    padding: 60px 20px 40px;
-  }
-  .hero-emoji { font-size: 4rem; display: block; margin-bottom: 16px; animation: float 3s ease-in-out infinite; }
+  .hero { text-align:center; padding:60px 20px 40px; }
+  .hero-emoji { font-size:4rem; display:block; margin-bottom:16px; animation:float 3s ease-in-out infinite; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-  .hero h1 { font-size: 2.4rem; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
-  .hero h1 span { background: linear-gradient(135deg,var(--accent1),var(--accent2),var(--accent3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-  .hero p { color: var(--text2); font-size: 1rem; max-width: 480px; margin: 0 auto 28px; line-height: 1.7; }
-  .hero-stats {
-    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
-  }
-  .stat-pill {
-    padding: 8px 20px;
-    border-radius: 99px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    font-size: .85rem;
-    font-weight: 600;
-    color: var(--text2);
-  }
-  .stat-pill span { color: var(--accent1); }
+  .hero h1 { font-size:2.4rem; font-weight:800; line-height:1.2; margin-bottom:12px; }
+  .hero h1 span { background:linear-gradient(135deg,var(--accent1),var(--accent2),var(--accent3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .hero p { color:var(--text2); font-size:1rem; max-width:480px; margin:0 auto 28px; line-height:1.7; }
+  .hero-stats { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .stat-pill { padding:8px 18px; border-radius:99px; background:var(--surface); border:1px solid var(--border); font-size:.82rem; font-weight:600; color:var(--text2); }
+  .stat-pill span { color:var(--accent1); }
 
   /* ── SECTION CARD ── */
   .section-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 32px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: box-shadow var(--transition);
-    animation: slideUp .5s both;
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    margin-bottom:32px; overflow:hidden; box-shadow:var(--shadow); transition:box-shadow var(--transition);
+    animation:slideUp .5s both;
   }
   @keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
-  .section-card:hover { box-shadow: var(--shadow), var(--shadow-glow); }
+  .section-card:hover { box-shadow:var(--shadow), var(--shadow-glow); }
   .card-header {
-    padding: 22px 28px 18px;
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    border-bottom: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
+    padding:22px 28px 18px; display:flex; align-items:flex-start; gap:16px;
+    border-bottom:1px solid var(--border); position:relative; overflow:hidden;
   }
-  .card-header::after {
-    content:'';
-    position:absolute;
-    top:0; left:0; right:0;
-    height:2px;
-    border-radius:2px 2px 0 0;
-  }
-  .card-icon {
-    width: 48px; height: 48px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem;
-    flex-shrink: 0;
-  }
-  .card-meta { flex: 1; }
-  .card-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 4px; }
-  .card-subtitle { font-size: .8rem; color: var(--text2); font-weight: 500; }
-  .card-tag {
-    font-size: .65rem;
-    font-weight: 700;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 99px;
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-  .card-body { padding: 24px 28px; }
+  .card-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; }
+  .card-meta { flex:1; }
+  .card-title { font-size:1.25rem; font-weight:800; margin-bottom:4px; }
+  .card-subtitle { font-size:.8rem; color:var(--text2); font-weight:500; }
+  .card-tag { font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:3px 10px; border-radius:99px; margin-left:auto; flex-shrink:0; }
+  .card-body { padding:24px 28px; }
 
   /* ── TABS ── */
-  .tabs {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 20px;
-    background: var(--bg2);
-    padding: 4px;
-    border-radius: 10px;
-    width: fit-content;
-  }
-  .tab-btn {
-    padding: 7px 16px;
-    border-radius: 7px;
-    border: none;
-    background: transparent;
-    color: var(--text2);
-    font-family: var(--font-main);
-    font-size: .82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--transition);
-  }
-  .tab-btn.active {
-    background: var(--surface2);
-    color: var(--text);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
+  .tabs { display:flex; gap:4px; margin-bottom:20px; background:var(--bg2); padding:4px; border-radius:10px; width:fit-content; flex-wrap:wrap; }
+  .tab-btn { padding:7px 14px; border-radius:7px; border:none; background:transparent; color:var(--text2); font-family:var(--font-main); font-size:.8rem; font-weight:600; cursor:pointer; transition:all var(--transition); }
+  .tab-btn.active { background:var(--surface2); color:var(--text); box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
 
-  /* ── EXPLANATION BOX ── */
-  .explain-box {
-    background: var(--bg2);
-    border-radius: var(--radius-sm);
-    padding: 16px 20px;
-    margin-bottom: 16px;
-    border-left: 3px solid var(--accent1);
-    line-height: 1.8;
-    font-size: .92rem;
-  }
-  .explain-box p { margin-bottom: 8px; }
-  .explain-box p:last-child { margin-bottom: 0; }
-  .explain-label {
-    font-size: .68rem;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    color: var(--accent1);
-  }
+  /* ── EXPLAIN ── */
+  .explain-box { background:var(--bg2); border-radius:var(--radius-sm); padding:16px 20px; margin-bottom:16px; border-left:3px solid var(--accent1); line-height:1.8; font-size:.92rem; }
+  .explain-box p { margin-bottom:8px; }
+  .explain-box p:last-child { margin-bottom:0; }
+  .explain-label { font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px; color:var(--accent1); }
+  .usecase-box { background:linear-gradient(135deg,rgba(109,250,213,.06),rgba(109,186,255,.06)); border:1px solid rgba(109,250,213,.2); border-radius:var(--radius-sm); padding:14px 18px; margin-bottom:16px; font-size:.88rem; line-height:1.7; }
+  .usecase-label { color:var(--accent3); font-weight:700; margin-bottom:6px; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; }
 
-  /* ── CODE BLOCK ── */
-  .code-wrap {
-    position: relative;
-    margin-bottom: 16px;
-  }
-  pre {
-    background: #0a0a18;
-    border-radius: var(--radius-sm);
-    padding: 16px 20px;
-    font-family: var(--font-code);
-    font-size: .82rem;
-    line-height: 1.7;
-    overflow-x: auto;
-    border: 1px solid rgba(255,255,255,.06);
-  }
-  [data-theme="light"] pre { background: #1a1a3a; }
-  .copy-btn {
-    position: absolute;
-    top: 8px; right: 8px;
-    padding: 4px 12px;
-    border-radius: 6px;
-    border: 1px solid rgba(255,255,255,.1);
-    background: rgba(255,255,255,.06);
-    color: var(--text2);
-    font-size: .72rem;
-    font-family: var(--font-main);
-    cursor: pointer;
-    transition: all var(--transition);
-  }
-  .copy-btn:hover { background: rgba(255,255,255,.12); color: var(--text); }
-  .kw { color: #fa6d8e; }
-  .fn { color: #7c6dfa; }
-  .str { color: #6dfad5; }
-  .num { color: #fad76d; }
-  .cm { color: #4a4a80; font-style: italic; }
-  .op { color: #fa9a6d; }
-  .br { color: #a0a0cc; }
+  /* ── CODE ── */
+  .code-wrap { position:relative; margin-bottom:16px; }
+  pre { background:#0a0a18; border-radius:var(--radius-sm); padding:16px 20px; font-family:var(--font-code); font-size:.82rem; line-height:1.7; overflow-x:auto; border:1px solid rgba(255,255,255,.06); }
+  [data-theme="light"] pre { background:#1a1a3a; }
+  .copy-btn { position:absolute; top:8px; right:8px; padding:4px 12px; border-radius:6px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.06); color:var(--text2); font-size:.72rem; font-family:var(--font-main); cursor:pointer; transition:all var(--transition); }
+  .copy-btn:hover { background:rgba(255,255,255,.12); color:var(--text); }
+  .kw{color:#fa6d8e} .fn{color:#7c6dfa} .str{color:#6dfad5} .num{color:#fad76d} .cm{color:#4a4a80;font-style:italic} .op{color:#fa9a6d} .br{color:#a0a0cc}
 
-  /* ── USE CASE ── */
-  .usecase-box {
-    background: linear-gradient(135deg, rgba(109,250,213,.06), rgba(109,186,255,.06));
-    border: 1px solid rgba(109,250,213,.2);
-    border-radius: var(--radius-sm);
-    padding: 14px 18px;
-    margin-bottom: 16px;
-    font-size: .88rem;
-    line-height: 1.7;
-  }
-  .usecase-label { color: var(--accent3); font-weight: 700; margin-bottom: 6px; font-size: .72rem; letter-spacing:.1em; text-transform:uppercase; }
-
-  /* ── LIVE DEMO ── */
-  .demo-area {
-    background: var(--bg3);
-    border-radius: var(--radius-sm);
-    padding: 20px;
-    margin-bottom: 16px;
-  }
-  .demo-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text3); margin-bottom: 12px; }
-  .demo-input-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
-  .demo-input {
-    padding: 9px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    font-family: var(--font-main);
-    font-size: .88rem;
-    outline: none;
-    flex: 1;
-    min-width: 120px;
-    transition: border-color var(--transition);
-  }
-  .demo-input:focus { border-color: var(--accent1); }
-  .demo-btn {
-    padding: 9px 20px;
-    border-radius: 8px;
-    border: none;
-    font-family: var(--font-main);
-    font-size: .88rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all .2s;
-    white-space: nowrap;
-  }
-  .demo-btn:active { transform: scale(.96); }
-  .demo-output {
-    padding: 12px 16px;
-    background: var(--surface);
-    border-radius: 8px;
-    font-family: var(--font-code);
-    font-size: .85rem;
-    color: var(--accent3);
-    min-height: 40px;
-    word-break: break-word;
-    line-height: 1.6;
-    border: 1px solid var(--border);
-  }
+  /* ── DEMO ── */
+  .demo-area { background:var(--bg3); border-radius:var(--radius-sm); padding:20px; margin-bottom:16px; }
+  .demo-label { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--text3); margin-bottom:12px; }
+  .demo-input-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:12px; }
+  .demo-input { padding:9px 14px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:var(--font-main); font-size:.88rem; outline:none; flex:1; min-width:120px; transition:border-color var(--transition); }
+  .demo-input:focus { border-color:var(--accent1); }
+  .demo-btn { padding:9px 18px; border-radius:8px; border:none; font-family:var(--font-main); font-size:.85rem; font-weight:700; cursor:pointer; transition:all .2s; white-space:nowrap; }
+  .demo-btn:active { transform:scale(.96); }
+  .demo-output { padding:12px 16px; background:var(--surface); border-radius:8px; font-family:var(--font-code); font-size:.85rem; color:var(--accent3); min-height:40px; word-break:break-word; line-height:1.7; border:1px solid var(--border); white-space:pre-wrap; }
 
   /* ── QUIZ ── */
-  .quiz-box {
-    background: linear-gradient(135deg, rgba(250,215,109,.05), rgba(250,154,109,.05));
-    border: 1px solid rgba(250,215,109,.2);
-    border-radius: var(--radius-sm);
-    padding: 18px 20px;
-  }
-  .quiz-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent4); margin-bottom: 10px; }
-  .quiz-question { font-size: .92rem; font-weight: 600; margin-bottom: 14px; line-height: 1.6; }
-  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
-  .quiz-opt {
-    padding: 10px 16px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text2);
-    cursor: pointer;
-    font-family: var(--font-main);
-    font-size: .88rem;
-    text-align: left;
-    transition: all .2s;
-  }
-  .quiz-opt:hover { border-color: var(--accent4); color: var(--text); }
-  .quiz-opt.correct { border-color: var(--accent3); background: rgba(109,250,213,.1); color: var(--accent3); }
-  .quiz-opt.wrong { border-color: var(--accent2); background: rgba(250,109,142,.1); color: var(--accent2); }
-  .quiz-feedback { margin-top: 10px; font-size: .85rem; line-height: 1.6; padding: 8px 12px; border-radius: 6px; display: none; }
-  .quiz-feedback.show { display: block; }
-  .quiz-feedback.ok { background: rgba(109,250,213,.1); color: var(--accent3); }
-  .quiz-feedback.no { background: rgba(250,109,142,.1); color: var(--accent2); }
-  .quiz-reset {
-    margin-top: 10px;
-    padding: 7px 16px;
-    border-radius: 7px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text2);
-    font-family: var(--font-main);
-    font-size: .8rem;
-    cursor: pointer;
-    display: none;
-  }
-  .quiz-reset.show { display: inline-block; }
+  .quiz-box { background:linear-gradient(135deg,rgba(250,215,109,.05),rgba(250,154,109,.05)); border:1px solid rgba(250,215,109,.2); border-radius:var(--radius-sm); padding:18px 20px; }
+  .quiz-label { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--accent4); margin-bottom:10px; }
+  .quiz-question { font-size:.92rem; font-weight:600; margin-bottom:14px; line-height:1.6; }
+  .quiz-options { display:flex; flex-direction:column; gap:8px; }
+  .quiz-opt { padding:10px 16px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:var(--text2); cursor:pointer; font-family:var(--font-main); font-size:.88rem; text-align:left; transition:all .2s; }
+  .quiz-opt:hover:not(:disabled) { border-color:var(--accent4); color:var(--text); }
+  .quiz-opt.correct { border-color:var(--accent3)!important; background:rgba(109,250,213,.1); color:var(--accent3)!important; }
+  .quiz-opt.wrong { border-color:var(--accent2)!important; background:rgba(250,109,142,.1); color:var(--accent2)!important; }
+  .quiz-feedback { margin-top:10px; font-size:.85rem; line-height:1.6; padding:8px 12px; border-radius:6px; display:none; }
+  .quiz-feedback.show { display:block; }
+  .quiz-feedback.ok { background:rgba(109,250,213,.1); color:var(--accent3); }
+  .quiz-feedback.no { background:rgba(250,109,142,.1); color:var(--accent2); }
+  .quiz-reset { margin-top:10px; padding:7px 16px; border-radius:7px; border:1px solid var(--border); background:transparent; color:var(--text2); font-family:var(--font-main); font-size:.8rem; cursor:pointer; display:none; }
+  .quiz-reset.show { display:inline-block; }
 
-  /* ── PROGRESS BAR ── */
-  .progress-bar-wrap {
-    position: fixed;
-    top: 60px; left: var(--sidebar-w); right: 0;
-    height: 3px;
-    background: var(--border);
-    z-index: 89;
-    transition: left var(--transition);
-  }
-  #progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    transition: width .3s ease;
-    border-radius: 0 2px 2px 0;
-  }
+  /* ── PROGRESS ── */
+  .progress-bar-wrap { position:fixed; top:60px; left:var(--sidebar-w); right:0; height:3px; background:var(--border); z-index:89; transition:left var(--transition); }
+  #progress-bar { height:100%; background:linear-gradient(90deg,var(--accent1),var(--accent2)); transition:width .3s ease; border-radius:0 2px 2px 0; }
 
   /* ── OVERLAY ── */
-  #overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.5);
-    z-index: 99;
-    backdrop-filter: blur(2px);
-  }
+  #overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:99; backdrop-filter:blur(2px); }
 
   /* ── TOAST ── */
-  #toast {
-    position: fixed;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 99px;
-    padding: 10px 22px;
-    font-size: .88rem;
-    font-weight: 600;
-    color: var(--text);
-    z-index: 999;
-    transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-    pointer-events: none;
-    white-space: nowrap;
-  }
-  #toast.show { transform: translateX(-50%) translateY(0); }
+  #toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--surface2); border:1px solid var(--border); border-radius:99px; padding:10px 22px; font-size:.88rem; font-weight:600; color:var(--text); z-index:999; transition:transform .3s cubic-bezier(.34,1.56,.64,1); pointer-events:none; white-space:nowrap; }
+  #toast.show { transform:translateX(-50%) translateY(0); }
 
   /* ── BACK TO TOP ── */
-  #backtop {
-    position: fixed;
-    bottom: 28px; right: 28px;
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent1), var(--accent2));
-    border: none;
-    color: white;
-    font-size: 1.1rem;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all .3s;
-    z-index: 80;
-  }
-  #backtop.show { opacity: 1; transform: translateY(0); }
+  #backtop { position:fixed; bottom:76px; right:28px; width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,var(--accent1),var(--accent2)); border:none; color:white; font-size:1.1rem; cursor:pointer; box-shadow:var(--shadow); opacity:0; transform:translateY(20px); transition:all .3s; z-index:80; }
+  #backtop.show { opacity:1; transform:translateY(0); }
 
-  /* ── SCORE TRACKER ── */
-  #score-tracker {
-    position: fixed;
-    top: 70px; right: 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px 16px;
-    font-size: .78rem;
-    z-index: 88;
-    display: flex; align-items: center; gap: 8px;
-    box-shadow: var(--shadow);
-    transition: all var(--transition);
-  }
-  .score-label { color: var(--text3); }
-  .score-val { font-weight: 800; font-size: 1rem; color: var(--accent4); }
+  /* ── SCORE ── */
+  #score-tracker { position:fixed; top:70px; right:16px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px 16px; font-size:.78rem; z-index:88; display:flex; align-items:center; gap:8px; box-shadow:var(--shadow); }
+  .score-label { color:var(--text3); }
+  .score-val { font-weight:800; font-size:1rem; color:var(--accent4); }
+
+  /* ── CAT DIVIDER ── */
+  .cat-divider { margin:32px 0 12px; display:flex; align-items:center; gap:12px; }
+  .cat-divider-bar { width:4px; height:24px; border-radius:2px; }
+  .cat-divider h2 { font-size:1.05rem; font-weight:800; color:var(--text2); text-transform:uppercase; letter-spacing:.08em; }
 
   /* ── RESPONSIVE ── */
-  @media(max-width: 768px) {
-    #sidebar { transform: translateX(-100%); }
-    #sidebar.open { transform: translateX(0); }
-    #main { margin-left: 0; }
-    #topbar { left: 0; }
-    .progress-bar-wrap { left: 0; }
-    #btn-menu { display: flex; }
-    #overlay.show { display: block; }
-    .content-area { padding: 24px 16px 80px; }
-    .hero h1 { font-size: 1.8rem; }
-    #score-tracker { display: none; }
+  @media(max-width:768px) {
+    #sidebar { transform:translateX(-100%); }
+    #sidebar.open { transform:translateX(0); }
+    #main { margin-left:0; }
+    #topbar { left:0; }
+    .progress-bar-wrap { left:0; }
+    #btn-menu { display:flex; }
+    #overlay.show { display:block; }
+    .content-area { padding:24px 16px 120px; }
+    .hero h1 { font-size:1.8rem; }
+    #score-tracker { display:none; }
+    .tabs { gap:2px; }
+    .tab-btn { padding:6px 10px; font-size:.75rem; }
   }
-  @media(max-width: 480px) {
-    .card-header { flex-wrap: wrap; }
-    .card-tag { margin-left: 0; }
-    .demo-input-row { flex-direction: column; }
-    .demo-input { min-width: unset; width: 100%; }
+  @media(max-width:480px) {
+    .card-header { flex-wrap:wrap; }
+    .card-tag { margin-left:0; }
+    .demo-input-row { flex-direction:column; }
+    .demo-input, .demo-btn { width:100%; }
   }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
 </style>
 </head>
 <body>
@@ -628,15 +276,15 @@
   <div class="sidebar-search"><input type="text" id="search-input" placeholder="🔍 খুঁজুন..."></div>
   <div class="sidebar-nav" id="sidebar-nav"></div>
 </nav>
-
 <div id="overlay"></div>
 
 <!-- TOPBAR -->
 <div id="topbar">
   <button id="btn-menu" onclick="toggleSidebar()">☰</button>
   <div class="topbar-title" id="topbar-title">JavaScript ফাংশন</div>
-  <button id="btn-sound" onclick="toggleSound()" title="Sound toggle">🔊</button>
-  <button id="btn-theme" onclick="toggleTheme()" title="Theme toggle">🌙</button>
+  <div id="offline-chip">📴 অফলাইন</div>
+  <button id="btn-sound" onclick="toggleSound()" title="Sound">🔊</button>
+  <button id="btn-theme" onclick="toggleTheme()" title="Theme">🌙</button>
 </div>
 
 <!-- PROGRESS -->
@@ -645,19 +293,17 @@
 <!-- MAIN -->
 <div id="main">
   <div class="content-area" id="content-area">
-    <!-- Hero -->
     <div class="hero" id="section-home">
       <span class="hero-emoji">⚡</span>
       <h1>JavaScript <span>ফাংশন</span> শিখুন</h1>
-      <p>বাংলায় সহজ ব্যাখ্যা, লাইভ উদাহরণ এবং কুইজ সহ — সমস্ত ধরনের JavaScript ফাংশন এক জায়গায়।</p>
+      <p>বাংলায় সহজ ব্যাখ্যা, লাইভ ডেমো ও কুইজ সহ — সমস্ত ধরনের JavaScript ফাংশন এক জায়গায়।</p>
       <div class="hero-stats">
-        <div class="stat-pill">⚡ <span>12টি</span> ফাংশন টাইপ</div>
+        <div class="stat-pill">⚡ <span>12টি</span> টাইপ</div>
         <div class="stat-pill">🎯 <span>12টি</span> কুইজ</div>
         <div class="stat-pill">💡 লাইভ ডেমো</div>
-        <div class="stat-pill">📖 বাস্তব উদাহরণ</div>
+        <div class="stat-pill">📴 অফলাইন PWA</div>
       </div>
     </div>
-    <!-- Cards injected here -->
     <div id="cards-container"></div>
   </div>
 </div>
@@ -669,31 +315,29 @@
   <span class="score-label">/ <span id="score-total">0</span></span>
 </div>
 
+<!-- INSTALL BANNER -->
+<div id="install-banner">
+  <div class="install-txt">📲 <strong>হোম স্ক্রিনে যোগ করুন</strong> — অফলাইনেও চলবে!</div>
+  <button id="btn-install" onclick="installPWA()">ইন্সটল করুন</button>
+  <button id="btn-install-dismiss" onclick="dismissInstall()">পরে</button>
+</div>
+
 <!-- TOAST -->
 <div id="toast"></div>
-
 <!-- BACK TO TOP -->
 <button id="backtop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-// ═══════════════════════════════════════
-//  DATA — All function types
-// ═══════════════════════════════════════
+// ══════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════
 const FUNCTIONS = [
   {
-    id: 'declaration',
-    title: 'Function Declaration',
-    subtitle: 'ফাংশন ডিক্লারেশন',
-    icon: '📣',
-    category: 'basic',
-    catLabel: 'বেসিক',
-    color: '#7c6dfa',
-    colorBg: 'rgba(124,109,250,.12)',
-    tag: 'Basic',
-    tagColor: 'rgba(124,109,250,.2)',
-    tagText: '#7c6dfa',
-    explanation: `<p>Function Declaration হল JavaScript-এ সবচেয়ে পরিচিত এবং পুরনো পদ্ধতিতে ফাংশন তৈরি করা। এই পদ্ধতিতে <b>function</b> কীওয়ার্ড দিয়ে শুরু করে ফাংশনের নাম দেওয়া হয়।</p><p>এর সবচেয়ে বড় বৈশিষ্ট্য হল <b>Hoisting</b> — অর্থাৎ আপনি ফাংশন ডিক্লার করার আগেও সেটি কল করতে পারবেন!</p>`,
-    code: `<span class="cm">// ফাংশন তৈরি করা</span>
+    id:'declaration', title:'Function Declaration', subtitle:'ফাংশন ডিক্লারেশন',
+    icon:'📣', category:'basic', color:'#7c6dfa', colorBg:'rgba(124,109,250,.12)',
+    tag:'Basic', tagColor:'rgba(124,109,250,.2)', tagText:'#7c6dfa',
+    explanation:`<p>Function Declaration হল JavaScript-এ সবচেয়ে পরিচিত পদ্ধতিতে ফাংশন তৈরি করা। <b>function</b> কীওয়ার্ড দিয়ে শুরু করে ফাংশনের নাম দেওয়া হয়।</p><p>এর সবচেয়ে বড় বৈশিষ্ট্য হল <b>Hoisting</b> — অর্থাৎ আপনি ফাংশন ডিক্লার করার আগেও সেটি কল করতে পারবেন!</p>`,
+    code:`<span class="cm">// ফাংশন তৈরি করা</span>
 <span class="kw">function</span> <span class="fn">যোগ</span>(<span class="br">a</span>, <span class="br">b</span>) {
   <span class="kw">return</span> a <span class="op">+</span> b;
 }
@@ -702,902 +346,353 @@ const FUNCTIONS = [
 <span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">যোগ</span>(<span class="num">5</span>, <span class="num">3</span>)); <span class="cm">// 8</span>
 
 <span class="cm">// Hoisting — আগেও কল করা যায়!</span>
-<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">যোগ</span>(<span class="num">10</span>, <span class="num">20</span>)); <span class="cm">// 30 ✅</span>
-<span class="kw">function</span> <span class="fn">যোগ</span>(<span class="br">a</span>, <span class="br">b</span>) { <span class="kw">return</span> a <span class="op">+</span> b; }`,
-    usecase: '🏪 ই-কমার্স সাইটে দুটি পণ্যের দাম যোগ করে মোট মূল্য বের করতে এই ফাংশন ব্যবহার করা হয়।',
-    demo: {
-      type: 'twoNum',
-      label1: 'প্রথম সংখ্যা',
-      label2: 'দ্বিতীয় সংখ্যা',
-      btnLabel: 'যোগ করুন ➕',
-      btnColor: '#7c6dfa',
-      fn: (a, b) => `${a} + ${b} = ${parseFloat(a||0) + parseFloat(b||0)}`
-    },
-    quiz: {
-      q: 'Function Declaration-এর কোন বৈশিষ্ট্যটি এটিকে বিশেষ করে তোলে?',
-      opts: ['শুধুমাত্র একবার কল করা যায়', 'Hoisting — ডিক্লারের আগে কল করা যায়', 'Arrow function থেকে দ্রুত', 'শুধু number নিতে পারে'],
-      ans: 1,
-      feedback: '✅ সঠিক! Hoisting-এর কারণে Function Declaration কোডের যেকোনো জায়গা থেকে কল করা যায়।',
-      wrongFeedback: '❌ ভুল! সঠিক উত্তর: Hoisting — ডিক্লারের আগেও কল করা যায়।'
-    }
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">যোগ</span>(<span class="num">10</span>, <span class="num">20</span>)); <span class="cm">// 30 ✅</span>`,
+    usecase:'🏪 ই-কমার্স সাইটে দুটি পণ্যের দাম যোগ করে মোট মূল্য বের করতে ব্যবহার হয়।',
+    demo:{type:'twoNum', label1:'প্রথম সংখ্যা', label2:'দ্বিতীয় সংখ্যা', btnLabel:'যোগ করুন ➕', btnColor:'#7c6dfa', fn:(a,b)=>`${a} + ${b} = ${parseFloat(a||0)+parseFloat(b||0)}`},
+    quiz:{q:'Function Declaration-এর কোন বৈশিষ্ট্যটি এটিকে বিশেষ করে তোলে?',opts:['শুধু একবার কল করা যায়','Hoisting — ডিক্লারের আগে কল করা যায়','Arrow function থেকে দ্রুত','শুধু number নিতে পারে'],ans:1,feedback:'✅ সঠিক! Hoisting-এর কারণে Function Declaration কোডের যেকোনো জায়গা থেকে কল করা যায়।',wrongFeedback:'❌ ভুল! সঠিক উত্তর: Hoisting — ডিক্লারের আগেও কল করা যায়।'}
   },
   {
-    id: 'expression',
-    title: 'Function Expression',
-    subtitle: 'ফাংশন এক্সপ্রেশন',
-    icon: '📝',
-    category: 'basic',
-    catLabel: 'বেসিক',
-    color: '#fa6d8e',
-    colorBg: 'rgba(250,109,142,.12)',
-    tag: 'Basic',
-    tagColor: 'rgba(250,109,142,.2)',
-    tagText: '#fa6d8e',
-    explanation: `<p>Function Expression-এ ফাংশনকে একটি <b>ভ্যারিয়েবলে</b> রাখা হয়। এটি Anonymous (নামবিহীন) বা Named হতে পারে।</p><p>এর মূল পার্থক্য হল — এটি <b>Hoisted হয় না</b>। অর্থাৎ ডিক্লার করার পরেই শুধু ব্যবহার করা যাবে।</p>`,
-    code: `<span class="cm">// ভ্যারিয়েবলে ফাংশন রাখা</span>
+    id:'expression', title:'Function Expression', subtitle:'ফাংশন এক্সপ্রেশন',
+    icon:'📝', category:'basic', color:'#fa6d8e', colorBg:'rgba(250,109,142,.12)',
+    tag:'Basic', tagColor:'rgba(250,109,142,.2)', tagText:'#fa6d8e',
+    explanation:`<p>Function Expression-এ ফাংশনকে একটি <b>ভ্যারিয়েবলে</b> রাখা হয়। এটি Anonymous (নামবিহীন) বা Named হতে পারে।</p><p>এর মূল পার্থক্য হল — এটি <b>Hoisted হয় না</b>। অর্থাৎ ডিক্লার করার পরেই শুধু ব্যবহার করা যাবে।</p>`,
+    code:`<span class="cm">// ভ্যারিয়েবলে ফাংশন রাখা</span>
 <span class="kw">const</span> <span class="fn">গুণ</span> <span class="op">=</span> <span class="kw">function</span>(<span class="br">a</span>, <span class="br">b</span>) {
   <span class="kw">return</span> a <span class="op">*</span> b;
 };
 
 <span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">গুণ</span>(<span class="num">4</span>, <span class="num">5</span>)); <span class="cm">// 20</span>
 
-<span class="cm">// Hoisting নেই! এটি ত্রুটি দেবে:</span>
-<span class="cm">// console.log(ভাগ(10, 2)); ❌ Error!</span>
+<span class="cm">// Hoisting নেই — আগে কল করলে Error!</span>
 <span class="kw">const</span> <span class="fn">ভাগ</span> <span class="op">=</span> <span class="kw">function</span>(<span class="br">a</span>, <span class="br">b</span>) {
   <span class="kw">return</span> a <span class="op">/</span> b;
 };`,
-    usecase: '🎮 গেম অ্যাপে স্কোর হিসাব করার জন্য নির্দিষ্ট পর্যায়ে ফাংশন assign করতে ব্যবহার হয়।',
-    demo: {
-      type: 'twoNum',
-      label1: 'প্রথম সংখ্যা',
-      label2: 'দ্বিতীয় সংখ্যা',
-      btnLabel: 'গুণ করুন ✖️',
-      btnColor: '#fa6d8e',
-      fn: (a, b) => `${a} × ${b} = ${parseFloat(a||0) * parseFloat(b||0)}`
-    },
-    quiz: {
-      q: 'Function Expression কখন ব্যবহার করার আগে কল করলে কী হয়?',
-      opts: ['সঠিকভাবে কাজ করে', 'ReferenceError বা TypeError আসে', 'শূন্য রিটার্ন করে', 'অটো ঠিক হয়ে যায়'],
-      ans: 1,
-      feedback: '✅ একদম ঠিক! Hoisting না থাকায় আগে কল করলে Error আসে।',
-      wrongFeedback: '❌ ভুল! Function Expression Hoisted হয় না, তাই আগে কল করলে Error আসে।'
-    }
+    usecase:'🎮 গেম অ্যাপে স্কোর হিসাব করার জন্য নির্দিষ্ট পর্যায়ে ফাংশন assign করতে ব্যবহার হয়।',
+    demo:{type:'twoNum', label1:'প্রথম সংখ্যা', label2:'দ্বিতীয় সংখ্যা', btnLabel:'গুণ করুন ✖️', btnColor:'#fa6d8e', fn:(a,b)=>`${a} × ${b} = ${parseFloat(a||0)*parseFloat(b||0)}`},
+    quiz:{q:'Function Expression কখন ব্যবহার করার আগে কল করলে কী হয়?',opts:['সঠিকভাবে কাজ করে','ReferenceError বা TypeError আসে','শূন্য রিটার্ন করে','অটো ঠিক হয়ে যায়'],ans:1,feedback:'✅ একদম ঠিক! Hoisting না থাকায় আগে কল করলে Error আসে।',wrongFeedback:'❌ ভুল! Function Expression Hoisted হয় না, তাই আগে কল করলে Error আসে।'}
   },
   {
-    id: 'arrow',
-    title: 'Arrow Function',
-    subtitle: 'অ্যারো ফাংশন',
-    icon: '🏹',
-    category: 'basic',
-    catLabel: 'বেসিক',
-    color: '#6dfad5',
-    colorBg: 'rgba(109,250,213,.12)',
-    tag: 'ES6+',
-    tagColor: 'rgba(109,250,213,.2)',
-    tagText: '#6dfad5',
-    explanation: `<p>Arrow Function হল ES6-এ আসা একটি সংক্ষিপ্ত ও আধুনিক পদ্ধতি। <b>=></b> চিহ্ন ব্যবহার করে লেখা হয়।</p><p>এর বিশেষত্ব হল — এটি নিজের <b>this</b> তৈরি করে না, বরং বাইরে থেকে নেয়। এটি callback ও functional programming-এ বহুল ব্যবহৃত।</p>`,
-    code: `<span class="cm">// Traditional function</span>
+    id:'arrow', title:'Arrow Function', subtitle:'অ্যারো ফাংশন',
+    icon:'🏹', category:'basic', color:'#6dfad5', colorBg:'rgba(109,250,213,.12)',
+    tag:'ES6+', tagColor:'rgba(109,250,213,.2)', tagText:'#6dfad5',
+    explanation:`<p>Arrow Function হল ES6-এ আসা সংক্ষিপ্ত ও আধুনিক পদ্ধতি। <b>=></b> চিহ্ন ব্যবহার করে লেখা হয়।</p><p>এর বিশেষত্ব হল — এটি নিজের <b>this</b> তৈরি করে না, বরং বাইরে থেকে নেয়। Callback ও functional programming-এ বহুল ব্যবহৃত।</p>`,
+    code:`<span class="cm">// Traditional এবং Arrow তুলনা</span>
 <span class="kw">function</span> <span class="fn">বর্গ</span>(<span class="br">n</span>) { <span class="kw">return</span> n <span class="op">*</span> n; }
 
-<span class="cm">// Arrow function (same result!)</span>
+<span class="cm">// Arrow — একই কাজ, ছোট লেখা!</span>
 <span class="kw">const</span> <span class="fn">বর্গ</span> <span class="op">=</span> (<span class="br">n</span>) <span class="op">=></span> n <span class="op">*</span> n;
-
-<span class="cm">// এমনকি ছোট করে:</span>
+<span class="cm">// আরও ছোট:</span>
 <span class="kw">const</span> <span class="fn">বর্গ</span> <span class="op">=</span> <span class="br">n</span> <span class="op">=></span> n <span class="op">*</span> n;
 
-<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">বর্গ</span>(<span class="num">7</span>)); <span class="cm">// 49</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">বর্গ</span>(<span class="num">7</span>));  <span class="cm">// 49</span>
 <span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">বর্গ</span>(<span class="num">12</span>)); <span class="cm">// 144</span>`,
-    usecase: '📊 ড্যাশবোর্ডে প্রতিটি পণ্যের মূল্য ট্যাক্সসহ গণনা করতে Arrow Function দিয়ে একলাইনে লেখা যায়।',
-    demo: {
-      type: 'oneNum',
-      label1: 'যেকোনো সংখ্যা দিন',
-      btnLabel: 'বর্গ করুন 🔢',
-      btnColor: '#6dfad5',
-      fn: (a) => `${a}² = ${parseFloat(a||0) ** 2}`
-    },
-    quiz: {
-      q: 'Arrow Function-এ কোন বৈশিষ্ট্যটি নেই?',
-      opts: ['নিজস্ব this context', 'Return statement', 'Parameter নেওয়া', 'Default value'],
-      ans: 0,
-      feedback: '✅ দারুণ! Arrow Function-এর নিজস্ব this নেই — এটি lexically বাইরে থেকে নেয়।',
-      wrongFeedback: '❌ ভুল! Arrow Function-এর নিজস্ব this নেই।'
-    }
+    usecase:'📊 ড্যাশবোর্ডে প্রতিটি পণ্যের ট্যাক্সসহ মূল্য গণনায় Arrow Function দিয়ে একলাইনে লেখা যায়।',
+    demo:{type:'oneNum', label1:'যেকোনো সংখ্যা দিন', btnLabel:'বর্গ করুন 🔢', btnColor:'#6dfad5', fn:(a)=>`${a}² = ${parseFloat(a||0)**2}`},
+    quiz:{q:'Arrow Function-এ কোন বৈশিষ্ট্যটি নেই?',opts:['নিজস্ব this context','Return statement','Parameter নেওয়া','Default value'],ans:0,feedback:'✅ দারুণ! Arrow Function-এর নিজস্ব this নেই — lexically বাইরে থেকে নেয়।',wrongFeedback:'❌ ভুল! Arrow Function-এর নিজস্ব this নেই।'}
   },
   {
-    id: 'closure',
-    title: 'Closure',
-    subtitle: 'ক্লোজার',
-    icon: '🔒',
-    category: 'advanced',
-    catLabel: 'অ্যাডভান্সড',
-    color: '#fad76d',
-    colorBg: 'rgba(250,215,109,.12)',
-    tag: 'Advanced',
-    tagColor: 'rgba(250,215,109,.2)',
-    tagText: '#fad76d',
-    explanation: `<p>Closure হল যখন একটি ভেতরের ফাংশন বাইরের ফাংশনের ভ্যারিয়েবল <b>মনে রাখে</b> — এমনকি বাইরের ফাংশন শেষ হয়ে গেলেও!</p><p>এটি JavaScript-এর অন্যতম শক্তিশালী ধারণা। <b>Private data</b> তৈরি করতে এটি ব্যবহার হয়।</p>`,
-    code: `<span class="kw">function</span> <span class="fn">কাউন্টার</span>() {
+    id:'closure', title:'Closure', subtitle:'ক্লোজার',
+    icon:'🔒', category:'advanced', color:'#fad76d', colorBg:'rgba(250,215,109,.12)',
+    tag:'Advanced', tagColor:'rgba(250,215,109,.2)', tagText:'#fad76d',
+    explanation:`<p>Closure হল যখন একটি ভেতরের ফাংশন বাইরের ফাংশনের ভ্যারিয়েবল <b>মনে রাখে</b> — এমনকি বাইরের ফাংশন শেষ হয়ে গেলেও!</p><p>এটি JavaScript-এর অন্যতম শক্তিশালী ধারণা। <b>Private data</b> তৈরি করতে ব্যবহার হয়।</p>`,
+    code:`<span class="kw">function</span> <span class="fn">কাউন্টার</span>() {
   <span class="kw">let</span> সংখ্যা <span class="op">=</span> <span class="num">0</span>; <span class="cm">// private!</span>
-  
   <span class="kw">return</span> {
     বাড়াও: () <span class="op">=></span> <span class="op">++</span>সংখ্যা,
     কমাও: () <span class="op">=></span> <span class="op">--</span>সংখ্যা,
     দেখাও: () <span class="op">=></span> সংখ্যা
   };
 }
-
 <span class="kw">const</span> আমারকাউন্টার <span class="op">=</span> <span class="fn">কাউন্টার</span>();
 আমারকাউন্টার.<span class="fn">বাড়াও</span>(); <span class="cm">// 1</span>
 আমারকাউন্টার.<span class="fn">বাড়াও</span>(); <span class="cm">// 2</span>
-আমারকাউন্টার.<span class="fn">কমাও</span>(); <span class="cm">// 1</span>
-<span class="fn">console</span>.<span class="fn">log</span>(আমারকাউন্টার.<span class="fn">দেখাও</span>()); <span class="cm">// 1</span>`,
-    usecase: '🛒 শপিং কার্টে আইটেমের সংখ্যা গোপনে (private) রেখে শুধু নির্দিষ্ট function দিয়ে পরিবর্তন করতে Closure ব্যবহার হয়।',
-    demo: {
-      type: 'closure',
-      btnColor: '#fad76d'
-    },
-    quiz: {
-      q: 'Closure-এর মূল উদ্দেশ্য কী?',
-      opts: ['কোড দ্রুত চালানো', 'বাইরের স্কোপের ভ্যারিয়েবল মনে রাখা', 'Multiple return value', 'Async কাজ করা'],
-      ans: 1,
-      feedback: '✅ একদম সঠিক! Closure বাইরের স্কোপের ডেটা capture করে রাখে।',
-      wrongFeedback: '❌ ভুল! Closure-এর কাজ হল বাইরের স্কোপের ভ্যারিয়েবল মনে রাখা।'
-    }
+<span class="fn">console</span>.<span class="fn">log</span>(আমারকাউন্টার.<span class="fn">দেখাও</span>()); <span class="cm">// 2</span>`,
+    usecase:'🛒 শপিং কার্টে আইটেমের সংখ্যা গোপনে রেখে শুধু নির্দিষ্ট function দিয়ে পরিবর্তন করতে Closure ব্যবহার হয়।',
+    demo:{type:'closure', btnColor:'#fad76d'},
+    quiz:{q:'Closure-এর মূল উদ্দেশ্য কী?',opts:['কোড দ্রুত চালানো','বাইরের স্কোপের ভ্যারিয়েবল মনে রাখা','Multiple return value','Async কাজ করা'],ans:1,feedback:'✅ একদম সঠিক! Closure বাইরের স্কোপের ডেটা capture করে রাখে।',wrongFeedback:'❌ ভুল! Closure-এর কাজ হল বাইরের স্কোপের ভ্যারিয়েবল মনে রাখা।'}
   },
   {
-    id: 'iife',
-    title: 'IIFE',
-    subtitle: 'তাৎক্ষণিক ফাংশন',
-    icon: '⚡',
-    category: 'advanced',
-    catLabel: 'অ্যাডভান্সড',
-    color: '#fa9a6d',
-    colorBg: 'rgba(250,154,109,.12)',
-    tag: 'Advanced',
-    tagColor: 'rgba(250,154,109,.2)',
-    tagText: '#fa9a6d',
-    explanation: `<p>IIFE মানে <b>Immediately Invoked Function Expression</b> — অর্থাৎ যে ফাংশন তৈরি হওয়ার সাথে সাথেই চলে যায়।</p><p>এটি Global scope দূষণ রোধ করে এবং <b>module pattern</b> তৈরিতে ব্যবহার হয়।</p>`,
-    code: `<span class="cm">// IIFE — তৈরি হওয়ার সাথে সাথে চলে!</span>
+    id:'iife', title:'IIFE', subtitle:'তাৎক্ষণিক ফাংশন',
+    icon:'⚡', category:'advanced', color:'#fa9a6d', colorBg:'rgba(250,154,109,.12)',
+    tag:'Advanced', tagColor:'rgba(250,154,109,.2)', tagText:'#fa9a6d',
+    explanation:`<p>IIFE মানে <b>Immediately Invoked Function Expression</b> — অর্থাৎ যে ফাংশন তৈরি হওয়ার সাথে সাথেই চলে যায়।</p><p>এটি Global scope দূষণ রোধ করে এবং <b>module pattern</b> তৈরিতে ব্যবহার হয়।</p>`,
+    code:`<span class="cm">// IIFE — তৈরি হওয়ার সাথে সাথে চলে!</span>
 (<span class="kw">function</span>() {
   <span class="kw">const</span> গোপন <span class="op">=</span> <span class="str">"বাইরে দেখা যাবে না"</span>;
   <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"IIFE চলছে! 🚀"</span>);
-  <span class="fn">console</span>.<span class="fn">log</span>(গোপন);
 })();
 
 <span class="cm">// Arrow IIFE</span>
-(<span class="br">x</span> <span class="op">=></span> {
-  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"মান:"</span>, x <span class="op">*</span> x);
-})(<span class="num">5</span>); <span class="cm">// মান: 25</span>
-
-<span class="cm">// console.log(গোপন); ❌ Error! বাইরে নেই</span>`,
-    usecase: '🔐 ব্যাংকিং অ্যাপে একবার ব্যবহারের জন্য কনফিগারেশন সেটআপ — global scope নষ্ট না করে।',
-    demo: {
-      type: 'iife',
-      btnColor: '#fa9a6d'
-    },
-    quiz: {
-      q: 'IIFE-এর প্রধান সুবিধা কী?',
-      opts: ['দ্রুত লেখা যায়', 'Global scope দূষণ রোধ', 'বারবার কল করা যায়', 'Async হয়'],
-      ans: 1,
-      feedback: '✅ সঠিক! IIFE একটি নিরাপদ স্কোপ তৈরি করে global দূষণ রোধ করে।',
-      wrongFeedback: '❌ ভুল! IIFE-এর প্রধান সুবিধা Global scope রক্ষা করা।'
-    }
+((<span class="br">x</span>) <span class="op">=></span> {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"বর্গ:"</span>, x <span class="op">*</span> x);
+})(<span class="num">5</span>); <span class="cm">// বর্গ: 25</span>`,
+    usecase:'🔐 ব্যাংকিং অ্যাপে একবার ব্যবহারের জন্য কনফিগারেশন সেটআপ — global scope নষ্ট না করে।',
+    demo:{type:'iife', btnColor:'#fa9a6d'},
+    quiz:{q:'IIFE-এর প্রধান সুবিধা কী?',opts:['দ্রুত লেখা যায়','Global scope দূষণ রোধ','বারবার কল করা যায়','Async হয়'],ans:1,feedback:'✅ সঠিক! IIFE একটি নিরাপদ স্কোপ তৈরি করে global দূষণ রোধ করে।',wrongFeedback:'❌ ভুল! IIFE-এর প্রধান সুবিধা Global scope রক্ষা করা।'}
   },
   {
-    id: 'recursion',
-    title: 'Recursion',
-    subtitle: 'রিকার্শন',
-    icon: '🌀',
-    category: 'advanced',
-    catLabel: 'অ্যাডভান্সড',
-    color: '#6dbaff',
-    colorBg: 'rgba(109,186,255,.12)',
-    tag: 'Advanced',
-    tagColor: 'rgba(109,186,255,.2)',
-    tagText: '#6dbaff',
-    explanation: `<p>Recursion হল যখন একটি ফাংশন নিজেকে নিজে কল করে। এটি জটিল সমস্যাকে ছোট ছোট একই ধরনের সমস্যায় ভেঙে সমাধান করে।</p><p>অবশ্যই একটি <b>Base Case</b> (থামার শর্ত) থাকতে হবে, নইলে অনন্তকাল চলবে!</p>`,
-    code: `<span class="cm">// Factorial: n! = n × (n-1) × ... × 1</span>
+    id:'recursion', title:'Recursion', subtitle:'রিকার্শন',
+    icon:'🌀', category:'advanced', color:'#6dbaff', colorBg:'rgba(109,186,255,.12)',
+    tag:'Advanced', tagColor:'rgba(109,186,255,.2)', tagText:'#6dbaff',
+    explanation:`<p>Recursion হল যখন একটি ফাংশন নিজেকে নিজে কল করে। জটিল সমস্যাকে ছোট ছোট একই ধরনের সমস্যায় ভেঙে সমাধান করে।</p><p>অবশ্যই একটি <b>Base Case</b> (থামার শর্ত) থাকতে হবে, নইলে Stack Overflow হবে!</p>`,
+    code:`<span class="cm">// Factorial: n! = n × (n-1) × ... × 1</span>
 <span class="kw">function</span> <span class="fn">ফ্যাক্টোরিয়াল</span>(<span class="br">n</span>) {
   <span class="cm">// Base case — থামার শর্ত</span>
   <span class="kw">if</span> (n <span class="op"><=</span> <span class="num">1</span>) <span class="kw">return</span> <span class="num">1</span>;
-  
   <span class="cm">// নিজেকে কল করছে!</span>
   <span class="kw">return</span> n <span class="op">*</span> <span class="fn">ফ্যাক্টোরিয়াল</span>(n <span class="op">-</span> <span class="num">1</span>);
 }
 
-<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">ফ্যাক্টোরিয়াল</span>(<span class="num">5</span>));
-<span class="cm">// 5 × 4 × 3 × 2 × 1 = 120</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">ফ্যাক্টোরিয়াল</span>(<span class="num">5</span>)); <span class="cm">// 120</span>
 <span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">ফ্যাক্টোরিয়াল</span>(<span class="num">6</span>)); <span class="cm">// 720</span>`,
-    usecase: '📁 ফাইল সিস্টেমে nested ফোল্ডার খোঁজা, ট্রি ডেটা traverse করা, Fibonacci সিরিজ তৈরিতে ব্যবহার হয়।',
-    demo: {
-      type: 'oneNum',
-      label1: 'ফ্যাক্টোরিয়াল সংখ্যা (১-১২)',
-      btnLabel: 'ফ্যাক্টোরিয়াল বের করুন 🌀',
-      btnColor: '#6dbaff',
-      fn: (n) => {
-        n = Math.min(12, Math.max(0, parseInt(n)||0));
-        let r = 1; for(let i=2;i<=n;i++) r*=i;
-        return `${n}! = ${r}`;
-      }
-    },
-    quiz: {
-      q: 'Recursion-এ Base Case না থাকলে কী হয়?',
-      opts: ['সবচেয়ে দ্রুত কাজ করে', 'Stack Overflow Error আসে', 'শূন্য রিটার্ন করে', 'Async হয়ে যায়'],
-      ans: 1,
-      feedback: '✅ দারুণ! Base Case ছাড়া অনন্তকাল চলে Stack Overflow হয়।',
-      wrongFeedback: '❌ ভুল! Base Case না থাকলে infinite loop হয়ে Stack Overflow আসে।'
-    }
+    usecase:'📁 ফাইল সিস্টেমে nested ফোল্ডার খোঁজা, ট্রি ডেটা traverse করা, Fibonacci সিরিজ তৈরিতে ব্যবহার হয়।',
+    demo:{type:'oneNum', label1:'ফ্যাক্টোরিয়াল সংখ্যা (১-১২)', btnLabel:'ফ্যাক্টোরিয়াল বের করুন 🌀', btnColor:'#6dbaff', fn:(n)=>{n=Math.min(12,Math.max(0,parseInt(n)||0));let r=1;for(let i=2;i<=n;i++)r*=i;return`${n}! = ${r}`;}},
+    quiz:{q:'Recursion-এ Base Case না থাকলে কী হয়?',opts:['সবচেয়ে দ্রুত কাজ করে','Stack Overflow Error আসে','শূন্য রিটার্ন করে','Async হয়ে যায়'],ans:1,feedback:'✅ দারুণ! Base Case ছাড়া infinite loop হয়ে Stack Overflow হয়।',wrongFeedback:'❌ ভুল! Base Case না থাকলে Stack Overflow আসে।'}
   },
   {
-    id: 'hof',
-    title: 'Higher-Order Function',
-    subtitle: 'হায়ার-অর্ডার ফাংশন',
-    icon: '🏗️',
-    category: 'hof',
-    catLabel: 'হায়ার-অর্ডার',
-    color: '#b06dfa',
-    colorBg: 'rgba(176,109,250,.12)',
-    tag: 'HOF',
-    tagColor: 'rgba(176,109,250,.2)',
-    tagText: '#b06dfa',
-    explanation: `<p>Higher-Order Function হল এমন ফাংশন যা অন্য ফাংশনকে <b>parameter</b> হিসেবে নেয় অথবা ফাংশন <b>return</b> করে।</p><p>JavaScript-এর map, filter, reduce সবই Higher-Order Function। এটি Functional Programming-এর মূল ভিত্তি।</p>`,
-    code: `<span class="cm">// ফাংশন প্যারামিটার হিসেবে</span>
-<span class="kw">function</span> <span class="fn">প্রয়োগ</span>(<span class="br">সংখ্যা</span>, <span class="br">অপারেশন</span>) {
+    id:'hof', title:'Higher-Order Function', subtitle:'হায়ার-অর্ডার ফাংশন',
+    icon:'🏗️', category:'hof', color:'#b06dfa', colorBg:'rgba(176,109,250,.12)',
+    tag:'HOF', tagColor:'rgba(176,109,250,.2)', tagText:'#b06dfa',
+    explanation:`<p>Higher-Order Function হল এমন ফাংশন যা অন্য ফাংশনকে <b>parameter</b> হিসেবে নেয় অথবা ফাংশন <b>return</b> করে।</p><p>JavaScript-এর map, filter, reduce সবই Higher-Order Function। Functional Programming-এর মূল ভিত্তি।</p>`,
+    code:`<span class="kw">function</span> <span class="fn">প্রয়োগ</span>(<span class="br">সংখ্যা</span>, <span class="br">অপারেশন</span>) {
   <span class="kw">return</span> <span class="fn">অপারেশন</span>(সংখ্যা);
 }
-
 <span class="kw">const</span> <span class="fn">দ্বিগুণ</span> <span class="op">=</span> <span class="br">n</span> <span class="op">=></span> n <span class="op">*</span> <span class="num">2</span>;
-<span class="kw">const</span> <span class="fn">বর্গ</span> <span class="op">=</span> <span class="br">n</span> <span class="op">=></span> n <span class="op">**</span> <span class="num">2</span>;
+<span class="kw">const</span> <span class="fn">বর্গ</span>   <span class="op">=</span> <span class="br">n</span> <span class="op">=></span> n <span class="op">**</span> <span class="num">2</span>;
 
 <span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">প্রয়োগ</span>(<span class="num">5</span>, দ্বিগুণ)); <span class="cm">// 10</span>
 <span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">প্রয়োগ</span>(<span class="num">5</span>, বর্গ));   <span class="cm">// 25</span>
 
-<span class="cm">// ফাংশন return করা</span>
+<span class="cm">// ফাংশন return করা (Currying)</span>
 <span class="kw">const</span> <span class="fn">গুণিতক</span> <span class="op">=</span> (<span class="br">x</span>) <span class="op">=></span> (<span class="br">y</span>) <span class="op">=></span> x <span class="op">*</span> y;
 <span class="kw">const</span> তিনগুণ <span class="op">=</span> <span class="fn">গুণিতক</span>(<span class="num">3</span>);
 <span class="fn">console</span>.<span class="fn">log</span>(তিনগুণ(<span class="num">7</span>)); <span class="cm">// 21</span>`,
-    usecase: '📊 ড্যাশবোর্ডে বিভিন্ন ধরনের গ্রাফ ডেটা প্রসেস করতে একটি HOF বানিয়ে ভিন্ন ভিন্ন calculation পাস করা হয়।',
-    demo: {
-      type: 'hof',
-      btnColor: '#b06dfa'
-    },
-    quiz: {
-      q: 'নিচের কোনটি Higher-Order Function-এর উদাহরণ?',
-      opts: ['console.log()', 'Math.sqrt()', 'Array.map()', 'parseInt()'],
-      ans: 2,
-      feedback: '✅ সঠিক! Array.map() একটি callback ফাংশন নেয়, তাই এটি HOF।',
-      wrongFeedback: '❌ ভুল! Array.map() HOF কারণ এটি callback ফাংশন নেয়।'
-    }
+    usecase:'📊 ড্যাশবোর্ডে বিভিন্ন গ্রাফ ডেটা প্রসেস করতে একটি HOF বানিয়ে ভিন্ন calculation পাস করা হয়।',
+    demo:{type:'hof', btnColor:'#b06dfa'},
+    quiz:{q:'নিচের কোনটি Higher-Order Function-এর উদাহরণ?',opts:['console.log()','Math.sqrt()','Array.map()','parseInt()'],ans:2,feedback:'✅ সঠিক! Array.map() একটি callback ফাংশন নেয়, তাই এটি HOF।',wrongFeedback:'❌ ভুল! Array.map() HOF কারণ এটি callback ফাংশন নেয়।'}
   },
   {
-    id: 'map',
-    title: 'map() ফাংশন',
-    subtitle: 'অ্যারে ট্রান্সফর্ম',
-    icon: '🗺️',
-    category: 'hof',
-    catLabel: 'হায়ার-অর্ডার',
-    color: '#6dfad5',
-    colorBg: 'rgba(109,250,213,.12)',
-    tag: 'HOF',
-    tagColor: 'rgba(109,250,213,.2)',
-    tagText: '#6dfad5',
-    explanation: `<p>map() ফাংশন একটি array-র প্রতিটি উপাদানে একটি ফাংশন প্রয়োগ করে এবং <b>নতুন array</b> তৈরি করে।</p><p>মূল array অপরিবর্তিত থাকে। এটি data transformation-এ সবচেয়ে বেশি ব্যবহার হয়।</p>`,
-    code: `<span class="kw">const</span> দামের_তালিকা <span class="op">=</span> [<span class="num">100</span>, <span class="num">250</span>, <span class="num">180</span>, <span class="num">320</span>];
+    id:'map', title:'map() ফাংশন', subtitle:'অ্যারে ট্রান্সফর্ম',
+    icon:'🗺️', category:'hof', color:'#6dfad5', colorBg:'rgba(109,250,213,.12)',
+    tag:'HOF', tagColor:'rgba(109,250,213,.2)', tagText:'#6dfad5',
+    explanation:`<p>map() ফাংশন একটি array-র প্রতিটি উপাদানে একটি ফাংশন প্রয়োগ করে এবং <b>নতুন array</b> তৈরি করে।</p><p>মূল array অপরিবর্তিত থাকে। Data transformation-এ সবচেয়ে বেশি ব্যবহার হয়।</p>`,
+    code:`<span class="kw">const</span> দামের_তালিকা <span class="op">=</span> [<span class="num">100</span>, <span class="num">250</span>, <span class="num">180</span>, <span class="num">320</span>];
 
 <span class="cm">// প্রতিটি দামে ১৮% ট্যাক্স যোগ</span>
-<span class="kw">const</span> ট্যাক্সসহ_দাম <span class="op">=</span> দামের_তালিকা.<span class="fn">map</span>(<span class="br">দাম</span> <span class="op">=></span>
-  (দাম <span class="op">*</span> <span class="num">1.18</span>).<span class="fn">toFixed</span>(<span class="num">2</span>)
+<span class="kw">const</span> ট্যাক্সসহ <span class="op">=</span> দামের_তালিকা.<span class="fn">map</span>(
+  <span class="br">দাম</span> <span class="op">=></span> (দাম <span class="op">*</span> <span class="num">1.18</span>).<span class="fn">toFixed</span>(<span class="num">2</span>)
 );
-
-<span class="fn">console</span>.<span class="fn">log</span>(ট্যাক্সসহ_দাম);
-<span class="cm">// ["118.00","295.00","212.40","377.60"]</span>
-
-<span class="cm">// নাম সংক্ষিপ্ত করা</span>
-<span class="kw">const</span> নামের_তালিকা <span class="op">=</span> [<span class="str">"রাহিম"</span>, <span class="str">"করিম"</span>, <span class="str">"রহিমা"</span>];
-<span class="kw">const</span> প্রথম_অক্ষর <span class="op">=</span> নামের_তালিকা.<span class="fn">map</span>(<span class="br">n</span> <span class="op">=></span> n[<span class="num">0</span>] <span class="op">+</span> <span class="str">"."</span>);
-<span class="cm">// ["র.", "ক.", "র."]</span>`,
-    usecase: '🛒 অনলাইন শপে সব পণ্যের দামে ডিসকাউন্ট প্রয়োগ করে নতুন দামের তালিকা তৈরি করতে map() ব্যবহার হয়।',
-    demo: {
-      type: 'map',
-      btnColor: '#6dfad5'
-    },
-    quiz: {
-      q: 'map() ফাংশন কী রিটার্ন করে?',
-      opts: ['মূল array পরিবর্তিত হয়', 'একটি নতুন array', 'true বা false', 'একটি সংখ্যা'],
-      ans: 1,
-      feedback: '✅ সঠিক! map() সবসময় নতুন array তৈরি করে, মূলটি অক্ষুণ্ণ রাখে।',
-      wrongFeedback: '❌ ভুল! map() একটি নতুন array রিটার্ন করে।'
-    }
+<span class="fn">console</span>.<span class="fn">log</span>(ট্যাক্সসহ);
+<span class="cm">// ["118.00","295.00","212.40","377.60"]</span>`,
+    usecase:'🛒 অনলাইন শপে সব পণ্যের দামে ডিসকাউন্ট প্রয়োগ করে নতুন দামের তালিকা তৈরি করতে।',
+    demo:{type:'map', btnColor:'#6dfad5'},
+    quiz:{q:'map() ফাংশন কী রিটার্ন করে?',opts:['মূল array পরিবর্তিত হয়','একটি নতুন array','true বা false','একটি সংখ্যা'],ans:1,feedback:'✅ সঠিক! map() সবসময় নতুন array তৈরি করে, মূলটি অক্ষুণ্ণ রাখে।',wrongFeedback:'❌ ভুল! map() একটি নতুন array রিটার্ন করে।'}
   },
   {
-    id: 'filter',
-    title: 'filter() ফাংশন',
-    subtitle: 'শর্ত অনুযায়ী ছাঁকন',
-    icon: '🔽',
-    category: 'hof',
-    catLabel: 'হায়ার-অর্ডার',
-    color: '#fa6d8e',
-    colorBg: 'rgba(250,109,142,.12)',
-    tag: 'HOF',
-    tagColor: 'rgba(250,109,142,.2)',
-    tagText: '#fa6d8e',
-    explanation: `<p>filter() ফাংশন শুধুমাত্র সেই উপাদানগুলো নিয়ে <b>নতুন array</b> তৈরি করে যেগুলো একটি শর্ত পূরণ করে।</p><p>শর্ত true হলে উপাদান থাকে, false হলে বাদ পড়ে।</p>`,
-    code: `<span class="kw">const</span> সংখ্যা <span class="op">=</span> [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>,<span class="num">5</span>,<span class="num">6</span>,<span class="num">7</span>,<span class="num">8</span>,<span class="num">9</span>,<span class="num">10</span>];
+    id:'filter', title:'filter() ফাংশন', subtitle:'শর্ত অনুযায়ী ছাঁকন',
+    icon:'🔽', category:'hof', color:'#fa6d8e', colorBg:'rgba(250,109,142,.12)',
+    tag:'HOF', tagColor:'rgba(250,109,142,.2)', tagText:'#fa6d8e',
+    explanation:`<p>filter() ফাংশন শুধুমাত্র সেই উপাদানগুলো নিয়ে <b>নতুন array</b> তৈরি করে যেগুলো একটি শর্ত পূরণ করে।</p><p>শর্ত true হলে উপাদান থাকে, false হলে বাদ পড়ে।</p>`,
+    code:`<span class="kw">const</span> সংখ্যা <span class="op">=</span> [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>,<span class="num">5</span>,<span class="num">6</span>,<span class="num">7</span>,<span class="num">8</span>,<span class="num">9</span>,<span class="num">10</span>];
 
 <span class="cm">// শুধু জোড় সংখ্যা</span>
 <span class="kw">const</span> জোড় <span class="op">=</span> সংখ্যা.<span class="fn">filter</span>(<span class="br">n</span> <span class="op">=></span> n <span class="op">%</span> <span class="num">2</span> <span class="op">===</span> <span class="num">0</span>);
 <span class="fn">console</span>.<span class="fn">log</span>(জোড়); <span class="cm">// [2,4,6,8,10]</span>
 
 <span class="cm">// ৫০০+ টাকার পণ্য</span>
-<span class="kw">const</span> পণ্য <span class="op">=</span> [
-  {নাম:<span class="str">"চকলেট"</span>, দাম:<span class="num">120</span>},
-  {নাম:<span class="str">"ঘড়ি"</span>, দাম:<span class="num">2500</span>},
-  {নাম:<span class="str">"বই"</span>, দাম:<span class="num">350</span>},
-];
-<span class="kw">const</span> দামী <span class="op">=</span> পণ্য.<span class="fn">filter</span>(<span class="br">p</span> <span class="op">=></span> p.দাম <span class="op">>=</span> <span class="num">500</span>);
-<span class="cm">// [{নাম:"ঘড়ি", দাম:2500}]</span>`,
-    usecase: '🔍 এমাজন বা দারাজে প্রাইস রেঞ্জ দিয়ে পণ্য ফিল্টার করতে filter() ব্যবহার হয়।',
-    demo: {
-      type: 'filter',
-      btnColor: '#fa6d8e'
-    },
-    quiz: {
-      q: 'filter() কখন একটি উপাদান রাখে?',
-      opts: ['সবসময়', 'Callback true রিটার্ন করলে', 'Callback false রিটার্ন করলে', 'কখনো না'],
-      ans: 1,
-      feedback: '✅ একদম ঠিক! callback true দিলেই উপাদান নতুন array-তে যায়।',
-      wrongFeedback: '❌ ভুল! callback true রিটার্ন করলেই উপাদান রাখা হয়।'
-    }
+<span class="kw">const</span> দামী <span class="op">=</span> পণ্য.<span class="fn">filter</span>(<span class="br">p</span> <span class="op">=></span> p.দাম <span class="op">>=</span> <span class="num">500</span>);`,
+    usecase:'🔍 এমাজন বা দারাজে প্রাইস রেঞ্জ দিয়ে পণ্য ফিল্টার করতে filter() ব্যবহার হয়।',
+    demo:{type:'filter', btnColor:'#fa6d8e'},
+    quiz:{q:'filter() কখন একটি উপাদান রাখে?',opts:['সবসময়','Callback true রিটার্ন করলে','Callback false রিটার্ন করলে','কখনো না'],ans:1,feedback:'✅ একদম ঠিক! callback true দিলেই উপাদান নতুন array-তে যায়।',wrongFeedback:'❌ ভুল! callback true রিটার্ন করলেই উপাদান রাখা হয়।'}
   },
   {
-    id: 'reduce',
-    title: 'reduce() ফাংশন',
-    subtitle: 'একটি মান বের করা',
-    icon: '🎯',
-    category: 'hof',
-    catLabel: 'হায়ার-অর্ডার',
-    color: '#fad76d',
-    colorBg: 'rgba(250,215,109,.12)',
-    tag: 'HOF',
-    tagColor: 'rgba(250,215,109,.2)',
-    tagText: '#fad76d',
-    explanation: `<p>reduce() একটি array-র সব উপাদান মিলিয়ে একটি <b>একক মান</b> তৈরি করে।</p><p>এটি দুটি প্যারামিটার নেয়: <b>accumulator</b> (ক্রমবর্ধমান মান) এবং <b>currentValue</b>।</p>`,
-    code: `<span class="kw">const</span> কেনাকাটা <span class="op">=</span> [<span class="num">150</span>, <span class="num">200</span>, <span class="num">80</span>, <span class="num">350</span>, <span class="num">120</span>];
+    id:'reduce', title:'reduce() ফাংশন', subtitle:'একটি মান বের করা',
+    icon:'🎯', category:'hof', color:'#fad76d', colorBg:'rgba(250,215,109,.12)',
+    tag:'HOF', tagColor:'rgba(250,215,109,.2)', tagText:'#fad76d',
+    explanation:`<p>reduce() একটি array-র সব উপাদান মিলিয়ে একটি <b>একক মান</b> তৈরি করে।</p><p>দুটি প্যারামিটার নেয়: <b>accumulator</b> (ক্রমবর্ধমান মান) এবং <b>currentValue</b>।</p>`,
+    code:`<span class="kw">const</span> কেনাকাটা <span class="op">=</span> [<span class="num">150</span>, <span class="num">200</span>, <span class="num">80</span>, <span class="num">350</span>, <span class="num">120</span>];
 
-<span class="cm">// মোট যোগফল</span>
-<span class="kw">const</span> মোট <span class="op">=</span> কেনাকাটা.<span class="fn">reduce</span>((<span class="br">সমষ্টি</span>, <span class="br">বর্তমান</span>) <span class="op">=></span> {
-  <span class="kw">return</span> সমষ্টি <span class="op">+</span> বর্তমান;
-}, <span class="num">0</span>);
-
+<span class="kw">const</span> মোট <span class="op">=</span> কেনাকাটা.<span class="fn">reduce</span>(
+  (<span class="br">সমষ্টি</span>, <span class="br">বর্তমান</span>) <span class="op">=></span> সমষ্টি <span class="op">+</span> বর্তমান,
+  <span class="num">0</span>
+);
 <span class="fn">console</span>.<span class="fn">log</span>(মোট); <span class="cm">// 900</span>
 
-<span class="cm">// সর্বোচ্চ মান বের করা</span>
-<span class="kw">const</span> সর্বোচ্চ <span class="op">=</span> কেনাকাটা.<span class="fn">reduce</span>((<span class="br">max</span>, <span class="br">n</span>) <span class="op">=></span>
-  n <span class="op">></span> max <span class="op">?</span> n <span class="op">:</span> max
+<span class="cm">// সর্বোচ্চ মান</span>
+<span class="kw">const</span> সর্বোচ্চ <span class="op">=</span> কেনাকাটা.<span class="fn">reduce</span>(
+  (<span class="br">max</span>, <span class="br">n</span>) <span class="op">=></span> n <span class="op">></span> max <span class="op">?</span> n <span class="op">:</span> max
 );
 <span class="fn">console</span>.<span class="fn">log</span>(সর্বোচ্চ); <span class="cm">// 350</span>`,
-    usecase: '🧾 অনলাইন বিল পেমেন্টে সব আইটেমের মূল্য যোগ করে মোট দেখাতে reduce() ব্যবহার হয়।',
-    demo: {
-      type: 'reduce',
-      btnColor: '#fad76d'
-    },
-    quiz: {
-      q: 'reduce()-এ accumulator কী?',
-      opts: ['প্রতিটি উপাদানের মান', 'ক্রমবর্ধমান সঞ্চিত মান', 'Array-র দৈর্ঘ্য', 'শেষ উপাদান'],
-      ans: 1,
-      feedback: '✅ চমৎকার! Accumulator প্রতিটি step-এ update হয়ে চূড়ান্ত ফলাফল তৈরি করে।',
-      wrongFeedback: '❌ ভুল! Accumulator হল ক্রমবর্ধমান সঞ্চিত মান।'
-    }
+    usecase:'🧾 অনলাইন বিল পেমেন্টে সব আইটেমের মূল্য যোগ করে মোট দেখাতে reduce() ব্যবহার হয়।',
+    demo:{type:'reduce', btnColor:'#fad76d'},
+    quiz:{q:'reduce()-এ accumulator কী?',opts:['প্রতিটি উপাদানের মান','ক্রমবর্ধমান সঞ্চিত মান','Array-র দৈর্ঘ্য','শেষ উপাদান'],ans:1,feedback:'✅ চমৎকার! Accumulator প্রতিটি step-এ update হয়ে চূড়ান্ত ফলাফল তৈরি করে।',wrongFeedback:'❌ ভুল! Accumulator হল ক্রমবর্ধমান সঞ্চিত মান।'}
   },
   {
-    id: 'callback',
-    title: 'Callback Function',
-    subtitle: 'কলব্যাক ফাংশন',
-    icon: '📞',
-    category: 'async',
-    catLabel: 'অ্যাসিঙ্ক',
-    color: '#fa9a6d',
-    colorBg: 'rgba(250,154,109,.12)',
-    tag: 'Async',
-    tagColor: 'rgba(250,154,109,.2)',
-    tagText: '#fa9a6d',
-    explanation: `<p>Callback Function হল সেই ফাংশন যা অন্য ফাংশনের ভেতরে parameter হিসেবে পাস করা হয় এবং পরে কল করা হয়।</p><p>এটি async অপারেশনে (যেমন API call, Timer) বহুল ব্যবহৃত — যদিও "Callback Hell" এড়াতে এখন Promise/async-await পছন্দ করা হয়।</p>`,
-    code: `<span class="cm">// সরল callback</span>
-<span class="kw">function</span> <span class="fn">ডেটা_আনো</span>(<span class="br">url</span>, <span class="br">সফল</span>, <span class="br">ব্যর্থ</span>) {
-  <span class="cm">// ডেটা আনার পর কল হবে</span>
+    id:'callback', title:'Callback Function', subtitle:'কলব্যাক ফাংশন',
+    icon:'📞', category:'async', color:'#fa9a6d', colorBg:'rgba(250,154,109,.12)',
+    tag:'Async', tagColor:'rgba(250,154,109,.2)', tagText:'#fa9a6d',
+    explanation:`<p>Callback Function হল সেই ফাংশন যা অন্য ফাংশনের ভেতরে parameter হিসেবে পাস করা হয় এবং পরে কল করা হয়।</p><p>Async অপারেশনে (API call, Timer) বহুল ব্যবহৃত। এখন Promise/async-await বেশি পছন্দের।</p>`,
+    code:`<span class="kw">function</span> <span class="fn">ডেটা_আনো</span>(<span class="br">url</span>, <span class="br">সফল</span>, <span class="br">ব্যর্থ</span>) {
   setTimeout(() <span class="op">=></span> {
-    <span class="kw">if</span> (url) <span class="fn">সফল</span>(<span class="str">"ডেটা পাওয়া গেছে! ✅"</span>);
-    <span class="kw">else</span> <span class="fn">ব্যর্থ</span>(<span class="str">"ত্রুটি হয়েছে ❌"</span>);
+    <span class="kw">if</span> (url) <span class="fn">সফল</span>(<span class="str">"✅ ডেটা পাওয়া গেছে!"</span>);
+    <span class="kw">else</span> <span class="fn">ব্যর্থ</span>(<span class="str">"❌ ত্রুটি!"</span>);
   }, <span class="num">1000</span>);
 }
 
 <span class="fn">ডেটা_আনো</span>(
   <span class="str">"api/users"</span>,
-  (<span class="br">ডেটা</span>) <span class="op">=></span> <span class="fn">console</span>.<span class="fn">log</span>(ডেটা),   <span class="cm">// সফল callback</span>
-  (<span class="br">ত্রুটি</span>) <span class="op">=></span> <span class="fn">console</span>.<span class="fn">log</span>(ত্রুটি)  <span class="cm">// ব্যর্থ callback</span>
+  (<span class="br">ডেটা</span>) <span class="op">=></span> <span class="fn">console</span>.<span class="fn">log</span>(ডেটা),
+  (<span class="br">ত্রুটি</span>) <span class="op">=></span> <span class="fn">console</span>.<span class="fn">log</span>(ত্রুটি)
 );`,
-    usecase: '🌐 যখন API থেকে ডেটা আসার পর UI আপডেট করতে হয় — সেই "পরে করার" কাজটিই callback।',
-    demo: {
-      type: 'callback',
-      btnColor: '#fa9a6d'
-    },
-    quiz: {
-      q: 'Callback function কখন execute হয়?',
-      opts: ['সাথে সাথে', 'কোনো event বা operation শেষ হওয়ার পরে', 'শুধু error-এ', 'কখনো না'],
-      ans: 1,
-      feedback: '✅ সঠিক! Callback তখনই চলে যখন নির্দিষ্ট কাজ বা event শেষ হয়।',
-      wrongFeedback: '❌ ভুল! Callback কোনো কাজ বা event শেষ হলে পরে execute হয়।'
-    }
+    usecase:'🌐 যখন API থেকে ডেটা আসার পর UI আপডেট করতে হয় — সেই "পরে করার" কাজটিই callback।',
+    demo:{type:'callback', btnColor:'#fa9a6d'},
+    quiz:{q:'Callback function কখন execute হয়?',opts:['সাথে সাথে','কোনো event বা operation শেষ হওয়ার পরে','শুধু error-এ','কখনো না'],ans:1,feedback:'✅ সঠিক! Callback তখনই চলে যখন নির্দিষ্ট কাজ বা event শেষ হয়।',wrongFeedback:'❌ ভুল! Callback কোনো কাজ বা event শেষ হলে পরে execute হয়।'}
   },
   {
-    id: 'async',
-    title: 'Async / Await',
-    subtitle: 'অ্যাসিঙ্ক / অ্যাওয়েট',
-    icon: '⏳',
-    category: 'async',
-    catLabel: 'অ্যাসিঙ্ক',
-    color: '#7c6dfa',
-    colorBg: 'rgba(124,109,250,.12)',
-    tag: 'Modern',
-    tagColor: 'rgba(124,109,250,.2)',
-    tagText: '#7c6dfa',
-    explanation: `<p>async/await হল Promise-এর উপরে তৈরি একটি সুন্দর syntax যা asynchronous কোডকে <b>synchronous-এর মতো</b> দেখতে ও লিখতে দেয়।</p><p><b>async</b> দিয়ে ফাংশন চিহ্নিত করা হয়, <b>await</b> দিয়ে Promise শেষ হওয়ার জন্য অপেক্ষা করা হয়।</p>`,
-    code: `<span class="cm">// API থেকে ডেটা আনার উদাহরণ</span>
-<span class="kw">async function</span> <span class="fn">ব্যবহারকারী_আনো</span>(<span class="br">id</span>) {
+    id:'async', title:'Async / Await', subtitle:'অ্যাসিঙ্ক / অ্যাওয়েট',
+    icon:'⏳', category:'async', color:'#7c6dfa', colorBg:'rgba(124,109,250,.12)',
+    tag:'Modern', tagColor:'rgba(124,109,250,.2)', tagText:'#7c6dfa',
+    explanation:`<p>async/await হল Promise-এর উপরে তৈরি একটি সুন্দর syntax যা asynchronous কোডকে <b>synchronous-এর মতো</b> দেখতে ও লিখতে দেয়।</p><p><b>async</b> দিয়ে ফাংশন চিহ্নিত, <b>await</b> দিয়ে Promise শেষ হওয়ার জন্য অপেক্ষা।</p>`,
+    code:`<span class="kw">async function</span> <span class="fn">ব্যবহারকারী_আনো</span>(<span class="br">id</span>) {
   <span class="kw">try</span> {
-    <span class="cm">// await — ফলাফলের জন্য অপেক্ষা</span>
     <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(
       <span class="str">\`/api/users/\${id}\`</span>
     );
     <span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> response.<span class="fn">json</span>();
     <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"পেলাম:"</span>, data.name);
-    
   } <span class="kw">catch</span> (<span class="br">error</span>) {
     <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"ত্রুটি:"</span>, error);
   }
-}
-
-<span class="fn">ব্যবহারকারী_আনো</span>(<span class="num">42</span>);`,
-    usecase: '📱 মোবাইল অ্যাপে লগইনের পর সার্ভার থেকে profile data আনতে এবং error সামলাতে async/await ব্যবহার হয়।',
-    demo: {
-      type: 'async',
-      btnColor: '#7c6dfa'
-    },
-    quiz: {
-      q: 'async function সবসময় কী রিটার্ন করে?',
-      opts: ['একটি সাধারণ value', 'একটি Promise', 'undefined', 'Array'],
-      ans: 1,
-      feedback: '✅ একদম ঠিক! async function সবসময় একটি Promise রিটার্ন করে।',
-      wrongFeedback: '❌ ভুল! async function সবসময় একটি Promise wrap করে রিটার্ন করে।'
-    }
+}`,
+    usecase:'📱 মোবাইল অ্যাপে লগইনের পর সার্ভার থেকে profile data আনতে এবং error সামলাতে।',
+    demo:{type:'async', btnColor:'#7c6dfa'},
+    quiz:{q:'async function সবসময় কী রিটার্ন করে?',opts:['একটি সাধারণ value','একটি Promise','undefined','Array'],ans:1,feedback:'✅ একদম ঠিক! async function সবসময় একটি Promise wrap করে রিটার্ন করে।',wrongFeedback:'❌ ভুল! async function সবসময় একটি Promise রিটার্ন করে।'}
   }
 ];
 
-// ═══════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════
-let soundOn = true;
-let score = 0;
-let scoreTotal = 0;
-let quizAnswered = {};
-let audioCtx = null;
+const catColors={basic:'#7c6dfa',advanced:'#fad76d',hof:'#6dfad5',async:'#fa9a6d'};
+const catLabels={basic:'বেসিক',advanced:'অ্যাডভান্সড',hof:'হায়ার-অর্ডার',async:'অ্যাসিঙ্ক'};
 
-function getAudioCtx() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
-}
+// ── STATE ──
+let soundOn=true, score=0, scoreTotal=0, quizAnswered={}, audioCtx=null, isDark=true;
+let deferredPrompt=null, sidebarOpen=false, toastTimer=null;
 
-function playTone(freq, dur, type='sine', vol=0.15) {
-  if (!soundOn) return;
-  try {
-    const ctx = getAudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.type = type; osc.frequency.value = freq;
-    gain.gain.setValueAtTime(vol, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
-    osc.start(); osc.stop(ctx.currentTime + dur);
-  } catch(e){}
-}
+// ── AUDIO ──
+function getAC(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+function playTone(f,d,t='sine',v=0.15){if(!soundOn)return;try{const c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+d);o.start();o.stop(c.currentTime+d);}catch(e){}}
+function playClick(){playTone(440,.08,'sine',.1);}
+function playSuccess(){playTone(523,.1,'sine',.12);setTimeout(()=>playTone(659,.1,'sine',.12),100);setTimeout(()=>playTone(784,.2,'sine',.12),200);}
+function playError(){playTone(220,.15,'sawtooth',.08);setTimeout(()=>playTone(180,.2,'sawtooth',.08),150);}
+function playNav(){playTone(330,.06,'triangle',.08);}
 
-function playClick() { playTone(440, 0.08, 'sine', 0.1); }
-function playSuccess() {
-  playTone(523, 0.1, 'sine', 0.12);
-  setTimeout(()=>playTone(659, 0.1,'sine',0.12),100);
-  setTimeout(()=>playTone(784, 0.2,'sine',0.12),200);
-}
-function playError() {
-  playTone(220, 0.15, 'sawtooth', 0.08);
-  setTimeout(()=>playTone(180, 0.2,'sawtooth',0.08),150);
-}
-function playNav() { playTone(330, 0.06, 'triangle', 0.08); }
+// ── THEME ──
+function toggleTheme(){isDark=!isDark;document.body.setAttribute('data-theme',isDark?'dark':'light');document.getElementById('btn-theme').textContent=isDark?'🌙':'☀️';playClick();}
+function toggleSound(){soundOn=!soundOn;document.getElementById('btn-sound').textContent=soundOn?'🔊':'🔇';if(soundOn)playClick();}
 
-// ═══════════════════════════════════════
-//  THEME
-// ═══════════════════════════════════════
-let isDark = true;
-function toggleTheme() {
-  isDark = !isDark;
-  document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
-  document.getElementById('btn-theme').textContent = isDark ? '🌙' : '☀️';
-  playClick();
-}
+// ── SIDEBAR ──
+function toggleSidebar(){sidebarOpen=!sidebarOpen;document.getElementById('sidebar').classList.toggle('open',sidebarOpen);document.getElementById('overlay').classList.toggle('show',sidebarOpen);playNav();}
+document.getElementById('overlay').onclick=()=>toggleSidebar();
 
-function toggleSound() {
-  soundOn = !soundOn;
-  document.getElementById('btn-sound').textContent = soundOn ? '🔊' : '🔇';
-  if(soundOn) playClick();
-}
+// ── TOAST ──
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);}
 
-// ═══════════════════════════════════════
-//  SIDEBAR TOGGLE
-// ═══════════════════════════════════════
-let sidebarOpen = false;
-function toggleSidebar() {
-  sidebarOpen = !sidebarOpen;
-  document.getElementById('sidebar').classList.toggle('open', sidebarOpen);
-  document.getElementById('overlay').classList.toggle('show', sidebarOpen);
-  playNav();
-}
-document.getElementById('overlay').onclick = () => { toggleSidebar(); };
+// ── COPY ──
+function copyCode(btn){const pre=btn.parentElement.querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(()=>{btn.textContent='✅ কপি!';showToast('কোড কপি হয়েছে!');playSuccess();setTimeout(()=>btn.textContent='📋 কপি',2000);});}
 
-// ═══════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
-}
+// ── TABS ──
+function switchTab(id,tab,btn){const c=document.getElementById('card-'+id);c.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));c.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));c.querySelector('.tab-panel[data-tab="'+tab+'"]').classList.add('active');btn.classList.add('active');playNav();}
 
-// ═══════════════════════════════════════
-//  COPY CODE
-// ═══════════════════════════════════════
-function copyCode(btn) {
-  const pre = btn.parentElement.querySelector('pre');
-  navigator.clipboard.writeText(pre.innerText).then(() => {
-    btn.textContent = '✅ কপি!';
-    showToast('কোড কপি হয়েছে!');
-    playSuccess();
-    setTimeout(() => btn.textContent = '📋 কপি', 2000);
-  });
-}
-
-// ═══════════════════════════════════════
-//  TABS
-// ═══════════════════════════════════════
-function switchTab(cardId, tabName, btn) {
-  const card = document.getElementById('card-' + cardId);
-  card.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  card.querySelector('.tab-panel[data-tab="'+tabName+'"]').classList.add('active');
-  btn.classList.add('active');
-  playNav();
-}
-
-// ═══════════════════════════════════════
-//  QUIZ
-// ═══════════════════════════════════════
-function answerQuiz(cardId, optIdx, correctIdx, feedback, wrongFeedback) {
-  if (quizAnswered[cardId]) return;
-  quizAnswered[cardId] = true;
-  scoreTotal++;
-
-  const card = document.getElementById('card-' + cardId);
-  const opts = card.querySelectorAll('.quiz-opt');
-  const fb = card.querySelector('.quiz-feedback');
-  const reset = card.querySelector('.quiz-reset');
-
-  opts.forEach(o => o.disabled = true);
+// ── QUIZ ──
+function answerQuiz(cardId,optIdx,correctIdx,feedback,wrongFeedback){
+  if(quizAnswered[cardId])return;
+  quizAnswered[cardId]=true;scoreTotal++;
+  const c=document.getElementById('card-'+cardId);
+  const opts=c.querySelectorAll('.quiz-opt');
+  const fb=c.querySelector('.quiz-feedback');
+  opts.forEach(o=>o.disabled=true);
   opts[correctIdx].classList.add('correct');
-
-  if (optIdx === correctIdx) {
-    score++;
-    fb.textContent = feedback;
-    fb.className = 'quiz-feedback show ok';
-    playSuccess();
-    showToast('🎉 সঠিক উত্তর!');
-  } else {
-    opts[optIdx].classList.add('wrong');
-    fb.textContent = wrongFeedback;
-    fb.className = 'quiz-feedback show no';
-    playError();
-    showToast('❌ ভুল হয়েছে।');
-  }
-
-  document.getElementById('score-val').textContent = score;
-  document.getElementById('score-total').textContent = scoreTotal;
-  reset.classList.add('show');
+  if(optIdx===correctIdx){score++;fb.textContent=feedback;fb.className='quiz-feedback show ok';playSuccess();showToast('🎉 সঠিক উত্তর!');}
+  else{opts[optIdx].classList.add('wrong');fb.textContent=wrongFeedback;fb.className='quiz-feedback show no';playError();showToast('❌ ভুল হয়েছে।');}
+  document.getElementById('score-val').textContent=score;
+  document.getElementById('score-total').textContent=scoreTotal;
+  c.querySelector('.quiz-reset').classList.add('show');
 }
-
-function resetQuiz(cardId) {
-  quizAnswered[cardId] = false;
-  const card = document.getElementById('card-' + cardId);
-  card.querySelectorAll('.quiz-opt').forEach(o => {
-    o.disabled = false;
-    o.classList.remove('correct','wrong');
-  });
-  const fb = card.querySelector('.quiz-feedback');
-  fb.className = 'quiz-feedback';
-  card.querySelector('.quiz-reset').classList.remove('show');
+function resetQuiz(cardId){
+  quizAnswered[cardId]=false;
+  const c=document.getElementById('card-'+cardId);
+  c.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');});
+  c.querySelector('.quiz-feedback').className='quiz-feedback';
+  c.querySelector('.quiz-reset').classList.remove('show');
   playClick();
 }
 
-// ═══════════════════════════════════════
-//  DEMO RENDERERS
-// ═══════════════════════════════════════
-function renderDemo(fn, cardId) {
-  const d = fn.demo;
-  const color = d.btnColor;
-
-  if (d.type === 'twoNum') {
-    return `<div class="demo-area">
-      <div class="demo-label">🧪 লাইভ ডেমো</div>
-      <div class="demo-input-row">
-        <input class="demo-input" id="d1-${cardId}" type="number" placeholder="${d.label1}" value="5">
-        <input class="demo-input" id="d2-${cardId}" type="number" placeholder="${d.label2}" value="3">
-        <button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runDemo2('${cardId}')">${d.btnLabel}</button>
-      </div>
-      <div class="demo-output" id="dout-${cardId}">ফলাফল এখানে দেখাবে...</div>
-    </div>`;
-  }
-  if (d.type === 'oneNum') {
-    return `<div class="demo-area">
-      <div class="demo-label">🧪 লাইভ ডেমো</div>
-      <div class="demo-input-row">
-        <input class="demo-input" id="d1-${cardId}" type="number" placeholder="${d.label1}" value="5">
-        <button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runDemo1('${cardId}')">${d.btnLabel}</button>
-      </div>
-      <div class="demo-output" id="dout-${cardId}">ফলাফল এখানে দেখাবে...</div>
-    </div>`;
-  }
-  if (d.type === 'closure') {
-    return `<div class="demo-area">
-      <div class="demo-label">🧪 Closure কাউন্টার ডেমো</div>
-      <div class="demo-input-row">
-        <button class="demo-btn" style="background:#fad76d;color:#0d0d1a;font-size:1.2rem;" onclick="closureInc()">+১ বাড়াও</button>
-        <button class="demo-btn" style="background:var(--surface2);color:var(--text);" onclick="closureDec()">-১ কমাও</button>
-        <button class="demo-btn" style="background:var(--surface2);color:var(--text);" onclick="closureReset()">রিসেট</button>
-      </div>
-      <div class="demo-output" id="dout-closure">কাউন্টার: 0</div>
-    </div>`;
-  }
-  if (d.type === 'iife') {
-    return `<div class="demo-area">
-      <div class="demo-label">🧪 IIFE ডেমো</div>
-      <div class="demo-input-row">
-        <input class="demo-input" id="d1-iife" type="number" placeholder="একটি সংখ্যা দিন" value="7">
-        <button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runIife()">IIFE চালাও ⚡</button>
-      </div>
-      <div class="demo-output" id="dout-iife">ফলাফল এখানে আসবে...</div>
-    </div>`;
-  }
-  if (d.type === 'hof') {
-    return `<div class="demo-area">
-      <div class="demo-label">🧪 HOF ডেমো</div>
-      <div class="demo-input-row">
-        <input class="demo-input" id="d1-hof" type="number" placeholder="সংখ্যা দিন" value="5">
-        <select class="demo-input" id="d2-hof" style="flex:unset;width:auto;">
-          <option value="double">দ্বিগুণ</option>
-          <option value="square">বর্গ</option>
-          <option value="cube">ঘন</option>
-          <option value="neg">বিপরীত</option>
-        </select>
-        <button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runHof()">প্রয়োগ করুন 🏗️</button>
-      </div>
-      <div class="demo-output" id="dout-hof">ফলাফল এখানে আসবে...</div>
-    </div>`;
-  }
-  if (d.type === 'map') {
-    return `<div class="demo-area">
-      <div class="demo-label">🧪 map() ডেমো — দাম লিস্টে ট্যাক্স যোগ</div>
-      <div class="demo-input-row">
-        <input class="demo-input" id="d1-map" placeholder="দাম দিন (কমা দিয়ে): 100, 250, 180" value="100, 250, 180, 320">
-        <input class="demo-input" id="d2-map" type="number" placeholder="ট্যাক্স %" value="18" style="max-width:100px;">
-        <button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runMap()">map() চালাও 🗺️</button>
-      </div>
-      <div class="demo-output" id="dout-map">ফলাফল এখানে আসবে...</div>
-    </div>`;
-  }
-  if (d.type === 'filter') {
-    return `<div class="demo-area">
-      <div class="demo-label">🧪 filter() ডেমো — সংখ্যা থেকে জোড় বাছাই</div>
-      <div class="demo-input-row">
-        <input class="demo-input" id="d1-filter" placeholder="সংখ্যা দিন (কমা দিয়ে)" value="1, 2, 3, 4, 5, 6, 7, 8, 9, 10">
-        <select class="demo-input" id="d2-filter" style="flex:unset;width:auto;">
-          <option value="even">জোড় সংখ্যা</option>
-          <option value="odd">বিজোড় সংখ্যা</option>
-          <option value="gt5">৫ এর বেশি</option>
-          <option value="prime">মৌলিক</option>
-        </select>
-        <button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runFilter()">filter() চালাও 🔽</button>
-      </div>
-      <div class="demo-output" id="dout-filter">ফলাফল এখানে আসবে...</div>
-    </div>`;
-  }
-  if (d.type === 'reduce') {
-    return `<div class="demo-area">
-      <div class="demo-label">🧪 reduce() ডেমো — কেনাকাটার হিসাব</div>
-      <div class="demo-input-row">
-        <input class="demo-input" id="d1-reduce" placeholder="দাম দিন (কমা দিয়ে)" value="150, 200, 80, 350, 120">
-        <button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runReduce()">মোট হিসাব করুন 🎯</button>
-      </div>
-      <div class="demo-output" id="dout-reduce">ফলাফল এখানে আসবে...</div>
-    </div>`;
-  }
-  if (d.type === 'callback') {
-    return `<div class="demo-area">
-      <div class="demo-label">🧪 Callback ডেমো — ১ সেকেন্ড পরে কাজ হবে</div>
-      <div class="demo-input-row">
-        <input class="demo-input" id="d1-callback" placeholder="আপনার নাম লিখুন" value="রাহিম">
-        <button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runCallback()">১s পরে স্বাগত জানাও 📞</button>
-      </div>
-      <div class="demo-output" id="dout-callback">বাটন চাপুন...</div>
-    </div>`;
-  }
-  if (d.type === 'async') {
-    return `<div class="demo-area">
-      <div class="demo-label">🧪 Async/Await ডেমো — API থেকে ডেটা</div>
-      <div class="demo-input-row">
-        <input class="demo-input" id="d1-async" type="number" placeholder="User ID (1-10)" value="1" min="1" max="10">
-        <button class="demo-btn" style="background:${color};color:#fff;" onclick="runAsync()">ডেটা আনো ⏳</button>
-      </div>
-      <div class="demo-output" id="dout-async">বাটন চাপুন...</div>
-    </div>`;
-  }
+// ── DEMO RENDER ──
+function renderDemo(fn){
+  const d=fn.demo, id=fn.id, color=d.btnColor;
+  if(d.type==='twoNum') return `<div class="demo-area"><div class="demo-label">🧪 লাইভ ডেমো</div><div class="demo-input-row"><input class="demo-input" id="d1-${id}" type="number" placeholder="${d.label1}" value="5"><input class="demo-input" id="d2-${id}" type="number" placeholder="${d.label2}" value="3"><button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runDemo2('${id}')">  ${d.btnLabel}</button></div><div class="demo-output" id="dout-${id}">ফলাফল এখানে দেখাবে...</div></div>`;
+  if(d.type==='oneNum') return `<div class="demo-area"><div class="demo-label">🧪 লাইভ ডেমো</div><div class="demo-input-row"><input class="demo-input" id="d1-${id}" type="number" placeholder="${d.label1}" value="5"><button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runDemo1('${id}')">${d.btnLabel}</button></div><div class="demo-output" id="dout-${id}">ফলাফল এখানে দেখাবে...</div></div>`;
+  if(d.type==='closure') return `<div class="demo-area"><div class="demo-label">🧪 Closure কাউন্টার ডেমো</div><div class="demo-input-row"><button class="demo-btn" style="background:#fad76d;color:#0d0d1a;font-size:1.1rem;" onclick="closureInc()">+১ বাড়াও</button><button class="demo-btn" style="background:var(--surface2);color:var(--text);" onclick="closureDec()">-১ কমাও</button><button class="demo-btn" style="background:var(--surface2);color:var(--text);" onclick="closureReset()">রিসেট</button></div><div class="demo-output" id="dout-closure">কাউন্টার: 0</div></div>`;
+  if(d.type==='iife') return `<div class="demo-area"><div class="demo-label">🧪 IIFE ডেমো</div><div class="demo-input-row"><input class="demo-input" id="d1-iife" type="number" placeholder="একটি সংখ্যা দিন" value="7"><button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runIife()">IIFE চালাও ⚡</button></div><div class="demo-output" id="dout-iife">ফলাফল এখানে আসবে...</div></div>`;
+  if(d.type==='hof') return `<div class="demo-area"><div class="demo-label">🧪 HOF ডেমো</div><div class="demo-input-row"><input class="demo-input" id="d1-hof" type="number" value="5"><select class="demo-input" id="d2-hof" style="flex:unset;"><option value="double">দ্বিগুণ</option><option value="square">বর্গ</option><option value="cube">ঘন</option><option value="neg">বিপরীত</option></select><button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runHof()">প্রয়োগ 🏗️</button></div><div class="demo-output" id="dout-hof">ফলাফল এখানে আসবে...</div></div>`;
+  if(d.type==='map') return `<div class="demo-area"><div class="demo-label">🧪 map() ডেমো</div><div class="demo-input-row"><input class="demo-input" id="d1-map" value="100, 250, 180, 320" placeholder="দাম (কমা দিয়ে)"><input class="demo-input" id="d2-map" type="number" value="18" placeholder="ট্যাক্স %" style="max-width:90px;"><button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runMap()">map() চালাও 🗺️</button></div><div class="demo-output" id="dout-map">ফলাফল এখানে আসবে...</div></div>`;
+  if(d.type==='filter') return `<div class="demo-area"><div class="demo-label">🧪 filter() ডেমো</div><div class="demo-input-row"><input class="demo-input" id="d1-filter" value="1,2,3,4,5,6,7,8,9,10" placeholder="সংখ্যা (কমা দিয়ে)"><select class="demo-input" id="d2-filter" style="flex:unset;"><option value="even">জোড়</option><option value="odd">বিজোড়</option><option value="gt5">৫ এর বেশি</option><option value="prime">মৌলিক</option></select><button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runFilter()">filter() চালাও 🔽</button></div><div class="demo-output" id="dout-filter">ফলাফল এখানে আসবে...</div></div>`;
+  if(d.type==='reduce') return `<div class="demo-area"><div class="demo-label">🧪 reduce() ডেমো</div><div class="demo-input-row"><input class="demo-input" id="d1-reduce" value="150,200,80,350,120" placeholder="দাম (কমা দিয়ে)"><button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runReduce()">হিসাব করুন 🎯</button></div><div class="demo-output" id="dout-reduce">ফলাফল এখানে আসবে...</div></div>`;
+  if(d.type==='callback') return `<div class="demo-area"><div class="demo-label">🧪 Callback ডেমো — ১ সেকেন্ড পরে কাজ</div><div class="demo-input-row"><input class="demo-input" id="d1-callback" value="রাহিম" placeholder="আপনার নাম"><button class="demo-btn" style="background:${color};color:#0d0d1a;" onclick="runCallback()">১s পরে স্বাগত জানাও 📞</button></div><div class="demo-output" id="dout-callback">বাটন চাপুন...</div></div>`;
+  if(d.type==='async') return `<div class="demo-area"><div class="demo-label">🧪 Async/Await ডেমো — Real API</div><div class="demo-input-row"><input class="demo-input" id="d1-async" type="number" value="1" min="1" max="10" placeholder="User ID (1-10)" style="max-width:140px;"><button class="demo-btn" style="background:${color};color:#fff;" onclick="runAsync()">ডেটা আনো ⏳</button></div><div class="demo-output" id="dout-async">বাটন চাপুন...</div></div>`;
   return '';
 }
 
 // ── DEMO FUNCTIONS ──
-function runDemo2(id) {
-  const fn = FUNCTIONS.find(f => f.id === id);
-  const a = document.getElementById('d1-'+id).value;
-  const b = document.getElementById('d2-'+id).value;
-  document.getElementById('dout-'+id).textContent = fn.demo.fn(a, b);
-  playClick();
-}
-function runDemo1(id) {
-  const fn = FUNCTIONS.find(f => f.id === id);
-  const a = document.getElementById('d1-'+id).value;
-  document.getElementById('dout-'+id).textContent = fn.demo.fn(a);
-  playClick();
-}
+function runDemo2(id){const fn=FUNCTIONS.find(f=>f.id===id);const a=document.getElementById('d1-'+id).value;const b=document.getElementById('d2-'+id).value;document.getElementById('dout-'+id).textContent=fn.demo.fn(a,b);playClick();}
+function runDemo1(id){const fn=FUNCTIONS.find(f=>f.id===id);const a=document.getElementById('d1-'+id).value;document.getElementById('dout-'+id).textContent=fn.demo.fn(a);playClick();}
 
-// Closure counter
-const closureCounter = (() => { let c = 0; return { inc:()=>++c, dec:()=>--c, reset:()=>{c=0;return 0;}, get:()=>c }; })();
-function closureInc() { const v=closureCounter.inc(); document.getElementById('dout-closure').textContent=`কাউন্টার: ${v} (private ভ্যারিয়েবল বাইরে দেখা যাচ্ছে না!)`; playClick(); }
-function closureDec() { const v=closureCounter.dec(); document.getElementById('dout-closure').textContent=`কাউন্টার: ${v}`; playClick(); }
-function closureReset() { const v=closureCounter.reset(); document.getElementById('dout-closure').textContent=`কাউন্টার: ${v} (রিসেট হয়েছে)`; playClick(); }
+const closureCounter=(()=>{let c=0;return{inc:()=>++c,dec:()=>--c,reset:()=>{c=0;return 0;},get:()=>c};})();
+function closureInc(){const v=closureCounter.inc();document.getElementById('dout-closure').textContent=`কাউন্টার: ${v}\n(private ভ্যারিয়েবল বাইরে দেখা যাচ্ছে না!)`;playClick();}
+function closureDec(){const v=closureCounter.dec();document.getElementById('dout-closure').textContent=`কাউন্টার: ${v}`;playClick();}
+function closureReset(){closureCounter.reset();document.getElementById('dout-closure').textContent='কাউন্টার: 0 (রিসেট)';playClick();}
 
-function runIife() {
-  const n = parseFloat(document.getElementById('d1-iife').value)||0;
-  const result = ((x) => {
-    const sq = x * x;
-    const cube = x * x * x;
-    return `IIFE চলেছে!\n${x}² = ${sq}\n${x}³ = ${cube}`;
-  })(n);
-  document.getElementById('dout-iife').textContent = result;
-  playSuccess();
-}
+function runIife(){const n=parseFloat(document.getElementById('d1-iife').value)||0;const r=((x)=>{return`IIFE চলেছে!\n${x}² = ${x*x}\n${x}³ = ${x*x*x}`;  })(n);document.getElementById('dout-iife').textContent=r;playSuccess();}
 
-function runHof() {
-  const n = parseFloat(document.getElementById('d1-hof').value)||0;
-  const op = document.getElementById('d2-hof').value;
-  const ops = { double: x=>`${x} × 2 = ${x*2}`, square: x=>`${x}² = ${x**2}`, cube: x=>`${x}³ = ${x**3}`, neg: x=>`-${x} = ${-x}` };
-  const apply = (num, fn) => fn(num);
-  document.getElementById('dout-hof').textContent = apply(n, ops[op]);
-  playClick();
-}
+function runHof(){const n=parseFloat(document.getElementById('d1-hof').value)||0;const op=document.getElementById('d2-hof').value;const ops={double:x=>`${x} × 2 = ${x*2}`,square:x=>`${x}² = ${x**2}`,cube:x=>`${x}³ = ${x**3}`,neg:x=>`-${x} = ${-x}`};document.getElementById('dout-hof').textContent=((num,fn)=>fn(num))(n,ops[op]);playClick();}
 
-function runMap() {
-  const input = document.getElementById('d1-map').value;
-  const tax = parseFloat(document.getElementById('d2-map').value)||0;
-  const arr = input.split(',').map(x=>parseFloat(x.trim())).filter(x=>!isNaN(x));
-  const result = arr.map(p => (p * (1 + tax/100)).toFixed(2));
-  document.getElementById('dout-map').textContent = `মূল: [${arr.join(', ')}]\n${tax}% ট্যাক্সসহ: [${result.join(', ')}]`;
-  playSuccess();
-}
+function runMap(){const arr=document.getElementById('d1-map').value.split(',').map(x=>parseFloat(x.trim())).filter(x=>!isNaN(x));const tax=parseFloat(document.getElementById('d2-map').value)||0;const r=arr.map(p=>(p*(1+tax/100)).toFixed(2));document.getElementById('dout-map').textContent=`মূল: [${arr.join(', ')}]\n${tax}% ট্যাক্সসহ: [${r.join(', ')}]`;playSuccess();}
 
-function isPrime(n) { if(n<2)return false; for(let i=2;i<=Math.sqrt(n);i++) if(n%i===0)return false; return true; }
-function runFilter() {
-  const input = document.getElementById('d1-filter').value;
-  const type = document.getElementById('d2-filter').value;
-  const arr = input.split(',').map(x=>parseFloat(x.trim())).filter(x=>!isNaN(x));
-  const filters = { even:x=>x%2===0, odd:x=>x%2!==0, gt5:x=>x>5, prime:isPrime };
-  const labels = { even:'জোড়', odd:'বিজোড়', gt5:'৫ এর বেশি', prime:'মৌলিক' };
-  const result = arr.filter(filters[type]);
-  document.getElementById('dout-filter').textContent = `মূল: [${arr.join(', ')}]\n${labels[type]}: [${result.join(', ')}]`;
-  playSuccess();
-}
+function isPrime(n){if(n<2)return false;for(let i=2;i<=Math.sqrt(n);i++)if(n%i===0)return false;return true;}
+function runFilter(){const arr=document.getElementById('d1-filter').value.split(',').map(x=>parseFloat(x.trim())).filter(x=>!isNaN(x));const type=document.getElementById('d2-filter').value;const filters={even:x=>x%2===0,odd:x=>x%2!==0,gt5:x=>x>5,prime:isPrime};const labels={even:'জোড়',odd:'বিজোড়',gt5:'৫ এর বেশি',prime:'মৌলিক'};const r=arr.filter(filters[type]);document.getElementById('dout-filter').textContent=`মূল: [${arr.join(', ')}]\n${labels[type]}: [${r.join(', ')}]`;playSuccess();}
 
-function runReduce() {
-  const input = document.getElementById('d1-reduce').value;
-  const arr = input.split(',').map(x=>parseFloat(x.trim())).filter(x=>!isNaN(x));
-  const total = arr.reduce((sum,n)=>sum+n, 0);
-  const max = arr.reduce((m,n)=>n>m?n:m);
-  const min = arr.reduce((m,n)=>n<m?n:m);
-  document.getElementById('dout-reduce').textContent = `তালিকা: [${arr.join(', ')}]\nমোট: ৳${total}\nসর্বোচ্চ: ৳${max}\nসর্বনিম্ন: ৳${min}\nগড়: ৳${(total/arr.length).toFixed(2)}`;
-  playSuccess();
-}
+function runReduce(){const arr=document.getElementById('d1-reduce').value.split(',').map(x=>parseFloat(x.trim())).filter(x=>!isNaN(x));if(!arr.length)return;const total=arr.reduce((s,n)=>s+n,0);const max=arr.reduce((m,n)=>n>m?n:m);const min=arr.reduce((m,n)=>n<m?n:m);document.getElementById('dout-reduce').textContent=`তালিকা: [${arr.join(', ')}]\nমোট: ৳${total}\nসর্বোচ্চ: ৳${max} | সর্বনিম্ন: ৳${min}\nগড়: ৳${(total/arr.length).toFixed(2)}`;playSuccess();}
 
-function runCallback() {
-  const name = document.getElementById('d1-callback').value || 'বন্ধু';
-  const out = document.getElementById('dout-callback');
-  out.textContent = '⏳ ১ সেকেন্ড অপেক্ষা করুন...';
-  playClick();
-  function স্বাগত(নাম, callback) { setTimeout(() => callback(নাম), 1000); }
-  স্বাগত(name, (n) => { out.textContent = `🎉 স্বাগতম, ${n}! Callback সফলভাবে চলেছে।`; playSuccess(); });
-}
+function runCallback(){const name=document.getElementById('d1-callback').value||'বন্ধু';const out=document.getElementById('dout-callback');out.textContent='⏳ ১ সেকেন্ড অপেক্ষা করুন...';playClick();function স্বাগত(নাম,cb){setTimeout(()=>cb(নাম),1000);}স্বাগত(name,n=>{out.textContent=`🎉 স্বাগতম, ${n}!\nCallback সফলভাবে চলেছে।`;playSuccess();});}
 
-async function runAsync() {
-  const id = parseInt(document.getElementById('d1-async').value)||1;
-  const out = document.getElementById('dout-async');
-  out.textContent = '⏳ ডেটা আনা হচ্ছে...';
-  playClick();
-  try {
-    const res = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
-    if(!res.ok) throw new Error('পাওয়া যায়নি');
-    const data = await res.json();
-    out.textContent = `✅ সফল!\nনাম: ${data.name}\nইমেইল: ${data.email}\nশহর: ${data.address.city}\nকোম্পানি: ${data.company.name}`;
-    playSuccess();
-  } catch(e) {
-    out.textContent = `❌ ত্রুটি: ${e.message}`;
-    playError();
-  }
-}
+async function runAsync(){const id=Math.min(10,Math.max(1,parseInt(document.getElementById('d1-async').value)||1));const out=document.getElementById('dout-async');out.textContent='⏳ ডেটা আনা হচ্ছে...';playClick();try{const res=await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);if(!res.ok)throw new Error('পাওয়া যায়নি');const data=await res.json();out.textContent=`✅ সফল!\nনাম: ${data.name}\nইমেইল: ${data.email}\nশহর: ${data.address.city}\nকোম্পানি: ${data.company.name}`;playSuccess();}catch(e){out.textContent=`❌ ত্রুটি: ${e.message}`;playError();}}
 
-// ═══════════════════════════════════════
-//  BUILD SIDEBAR NAV
-// ═══════════════════════════════════════
-const catColors = { basic:'#7c6dfa', advanced:'#fad76d', hof:'#6dfad5', async:'#fa9a6d' };
-const catLabels = { basic:'বেসিক', advanced:'অ্যাডভান্সড', hof:'হায়ার-অর্ডার', async:'অ্যাসিঙ্ক' };
-
-function buildSidebar() {
-  const nav = document.getElementById('sidebar-nav');
-  const groups = {};
-  FUNCTIONS.forEach(fn => { if(!groups[fn.category]) groups[fn.category]=[]; groups[fn.category].push(fn); });
-  let html = '';
-  Object.entries(groups).forEach(([cat, fns]) => {
-    html += `<div class="nav-category">${catLabels[cat]}</div>`;
-    fns.forEach(fn => {
-      html += `<div class="nav-item" id="nav-${fn.id}" onclick="scrollToCard('${fn.id}')">
-        <span class="nav-dot" style="background:${catColors[cat]}"></span>
-        ${fn.icon} ${fn.title}
-      </div>`;
-    });
+// ── BUILD SIDEBAR ──
+function buildSidebar(){
+  const nav=document.getElementById('sidebar-nav');
+  const groups={};
+  FUNCTIONS.forEach(fn=>{if(!groups[fn.category])groups[fn.category]=[];groups[fn.category].push(fn);});
+  let html='';
+  Object.entries(groups).forEach(([cat,fns])=>{
+    html+=`<div class="nav-category">${catLabels[cat]}</div>`;
+    fns.forEach(fn=>{html+=`<div class="nav-item" id="nav-${fn.id}" onclick="scrollToCard('${fn.id}')"><span class="nav-dot" style="background:${catColors[cat]}"></span>${fn.icon} ${fn.title}</div>`;});
   });
-  nav.innerHTML = html;
+  nav.innerHTML=html;
 }
 
-// ═══════════════════════════════════════
-//  BUILD CARDS
-// ═══════════════════════════════════════
-function buildCards() {
-  const container = document.getElementById('cards-container');
-  let html = '';
-  const catOrder = {};
-  FUNCTIONS.forEach(fn => {
-    const cat = fn.category;
-    const isFirst = !catOrder[cat];
-    if(isFirst) {
-      catOrder[cat] = true;
-      html += `<div style="margin:32px 0 12px;display:flex;align-items:center;gap:12px;">
-        <div style="width:4px;height:24px;border-radius:2px;background:${catColors[cat]}"></div>
-        <h2 style="font-size:1.1rem;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;">${catLabels[cat]}</h2>
-      </div>`;
+// ── BUILD CARDS ──
+function buildCards(){
+  const container=document.getElementById('cards-container');
+  const catOrder={};
+  let html='';
+  FUNCTIONS.forEach((fn,i)=>{
+    if(!catOrder[fn.category]){
+      catOrder[fn.category]=true;
+      html+=`<div class="cat-divider"><div class="cat-divider-bar" style="background:${catColors[fn.category]}"></div><h2>${catLabels[fn.category]}</h2></div>`;
     }
-
-    html += `<div class="section-card" id="card-${fn.id}" style="animation-delay:${FUNCTIONS.indexOf(fn)*0.05}s">
+    html+=`<div class="section-card" id="card-${fn.id}" style="animation-delay:${i*0.04}s">
       <div class="card-header" style="background:linear-gradient(135deg,${fn.colorBg},transparent);">
         <div class="card-icon" style="background:${fn.colorBg};">${fn.icon}</div>
-        <div class="card-meta">
-          <div class="card-title" style="color:${fn.color};">${fn.title}</div>
-          <div class="card-subtitle">${fn.subtitle}</div>
-        </div>
+        <div class="card-meta"><div class="card-title" style="color:${fn.color};">${fn.title}</div><div class="card-subtitle">${fn.subtitle}</div></div>
         <div class="card-tag" style="background:${fn.tagColor};color:${fn.tagText};">${fn.tag}</div>
       </div>
       <div class="card-body">
@@ -1607,36 +702,19 @@ function buildCards() {
           <button class="tab-btn" onclick="switchTab('${fn.id}','demo',this)">🧪 ডেমো</button>
           <button class="tab-btn" onclick="switchTab('${fn.id}','quiz',this)">❓ কুইজ</button>
         </div>
-
         <div class="tab-panel active" data-tab="explain">
-          <div class="explain-box">
-            <div class="explain-label">ব্যাখ্যা</div>
-            ${fn.explanation}
-          </div>
-          <div class="usecase-box">
-            <div class="usecase-label">🌍 বাস্তব ব্যবহার</div>
-            ${fn.usecase}
-          </div>
+          <div class="explain-box"><div class="explain-label">ব্যাখ্যা</div>${fn.explanation}</div>
+          <div class="usecase-box"><div class="usecase-label">🌍 বাস্তব ব্যবহার</div>${fn.usecase}</div>
         </div>
-
         <div class="tab-panel" data-tab="code">
-          <div class="code-wrap">
-            <button class="copy-btn" onclick="copyCode(this)">📋 কপি</button>
-            <pre>${fn.code}</pre>
-          </div>
+          <div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">📋 কপি</button><pre>${fn.code}</pre></div>
         </div>
-
-        <div class="tab-panel" data-tab="demo">
-          ${renderDemo(fn, fn.id)}
-        </div>
-
+        <div class="tab-panel" data-tab="demo">${renderDemo(fn)}</div>
         <div class="tab-panel" data-tab="quiz">
           <div class="quiz-box">
             <div class="quiz-label">❓ কুইজ</div>
             <div class="quiz-question">${fn.quiz.q}</div>
-            <div class="quiz-options">
-              ${fn.quiz.opts.map((opt,i)=>`<button class="quiz-opt" onclick="answerQuiz('${fn.id}',${i},${fn.quiz.ans},\`${fn.quiz.feedback}\`,\`${fn.quiz.wrongFeedback}\`)">${String.fromCharCode(65+i)}) ${opt}</button>`).join('')}
-            </div>
+            <div class="quiz-options">${fn.quiz.opts.map((opt,i)=>`<button class="quiz-opt" onclick="answerQuiz('${fn.id}',${i},${fn.quiz.ans},\`${fn.quiz.feedback}\`,\`${fn.quiz.wrongFeedback}\`)">${String.fromCharCode(65+i)}) ${opt}</button>`).join('')}</div>
             <div class="quiz-feedback"></div>
             <button class="quiz-reset" onclick="resetQuiz('${fn.id}')">🔄 আবার চেষ্টা করুন</button>
           </div>
@@ -1644,72 +722,57 @@ function buildCards() {
       </div>
     </div>`;
   });
-  container.innerHTML = html;
+  container.innerHTML=html;
 }
 
-// ═══════════════════════════════════════
-//  SCROLL / PROGRESS / ACTIVE NAV
-// ═══════════════════════════════════════
-function scrollToCard(id) {
-  const el = document.getElementById('card-'+id);
-  if(el) { el.scrollIntoView({behavior:'smooth', block:'start'}); }
-  if(window.innerWidth <= 768) { sidebarOpen=true; toggleSidebar(); }
-  playNav();
-}
+// ── SCROLL ──
+function scrollToCard(id){const el=document.getElementById('card-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});if(window.innerWidth<=768&&sidebarOpen)toggleSidebar();playNav();}
 
-window.addEventListener('scroll', () => {
-  const scrolled = window.scrollY;
-  const total = document.body.scrollHeight - window.innerHeight;
-  document.getElementById('progress-bar').style.width = (scrolled/total*100)+'%';
-  document.getElementById('backtop').classList.toggle('show', scrolled > 300);
-
-  // Active nav highlight
-  let active = null;
-  FUNCTIONS.forEach(fn => {
-    const el = document.getElementById('card-'+fn.id);
-    if(el && el.getBoundingClientRect().top < 120) active = fn.id;
-  });
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if(active) { const navEl = document.getElementById('nav-'+active); if(navEl) navEl.classList.add('active'); }
-
-  // Topbar title update
-  if(active) {
-    const fn = FUNCTIONS.find(f=>f.id===active);
-    if(fn) document.getElementById('topbar-title').textContent = fn.icon + ' ' + fn.title;
-  } else {
-    document.getElementById('topbar-title').textContent = 'JavaScript ফাংশন';
-  }
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY,total=document.body.scrollHeight-window.innerHeight;
+  document.getElementById('progress-bar').style.width=(s/total*100)+'%';
+  document.getElementById('backtop').classList.toggle('show',s>300);
+  let active=null;
+  FUNCTIONS.forEach(fn=>{const el=document.getElementById('card-'+fn.id);if(el&&el.getBoundingClientRect().top<120)active=fn.id;});
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(active){const n=document.getElementById('nav-'+active);if(n)n.classList.add('active');}
+  const fn=active?FUNCTIONS.find(f=>f.id===active):null;
+  document.getElementById('topbar-title').textContent=fn?`${fn.icon} ${fn.title}`:'JavaScript ফাংশন';
 });
 
-// ═══════════════════════════════════════
-//  SEARCH
-// ═══════════════════════════════════════
-document.getElementById('search-input').addEventListener('input', (e) => {
-  const q = e.target.value.toLowerCase();
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.style.display = item.textContent.toLowerCase().includes(q) ? '' : 'none';
-  });
+// ── SEARCH ──
+document.getElementById('search-input').addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item=>{item.style.display=item.textContent.toLowerCase().includes(q)?'':'none';});
 });
 
-// ═══════════════════════════════════════
-//  PWA SERVICE WORKER
-// ═══════════════════════════════════════
-if ('serviceWorker' in navigator) {
-  const swCode = `
-    const CACHE='jsfn-v1';
-    self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['/']))));
-    self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));
-  `;
-  const blob = new Blob([swCode], {type:'application/javascript'});
-  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+// ── OFFLINE DETECTION ──
+window.addEventListener('online',()=>document.getElementById('offline-chip').classList.remove('show'));
+window.addEventListener('offline',()=>document.getElementById('offline-chip').classList.add('show'));
+if(!navigator.onLine)document.getElementById('offline-chip').classList.add('show');
+
+// ── PWA INSTALL ──
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault(); deferredPrompt=e;
+  setTimeout(()=>document.getElementById('install-banner').classList.add('show'),3000);
+});
+function installPWA(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;document.getElementById('install-banner').classList.remove('show');showToast('🎉 অ্যাপ ইন্সটল শুরু হয়েছে!');});}}
+function dismissInstall(){document.getElementById('install-banner').classList.remove('show');}
+window.addEventListener('appinstalled',()=>{showToast('✅ হোম স্ক্রিনে যোগ হয়েছে!');document.getElementById('install-banner').classList.remove('show');});
+
+// ── SERVICE WORKER ──
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(reg=>console.log('[PWA] SW registered, scope:',reg.scope))
+      .catch(err=>console.warn('[PWA] SW failed:',err));
+  });
 }
 
-// ═══════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════
+// ── INIT ──
 buildSidebar();
 buildCards();
-document.getElementById('score-total').textContent = 0;
+document.getElementById('score-total').textContent=0;
 </script>
 </body>
 </html>
